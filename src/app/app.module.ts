@@ -1,12 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from '../components/login/login.component';
-
-const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent }
-];
+import { RoutingModule } from './routing.module';
 
 @NgModule({
   declarations: [
@@ -15,10 +11,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    )
+    RoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
