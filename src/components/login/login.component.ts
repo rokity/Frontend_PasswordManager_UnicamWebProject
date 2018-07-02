@@ -21,7 +21,7 @@ export class LoginComponent  {
     this.http.post(this.server,{email:this.email,masterkey:this.masterkey})
     .subscribe( data =>
       {
-       if(data.logged)
+       if(data['logged'])
         this.router.navigate(['/']);
       else
         {
