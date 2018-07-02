@@ -11,7 +11,7 @@ export class LoginComponent  {
   email : String ;
   masterkey : String ;
   
-  server  = "http://localhost:3000/api/login"
+  server  = "http://localhost:8000/api/login"
 
   constructor(private http : HttpClient,private router: Router) { 
     
