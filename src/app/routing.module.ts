@@ -8,8 +8,8 @@ import { RegistrationComponent } from '../components/registration/registration.c
 
 const routes: Routes = [
     { path: '', component: HomeComponent},
-    { path: 'login', component: LoginComponent},
-    { path: 'registration', component: RegistrationComponent},
+    { path: 'my-app/login', component: LoginComponent},
+    { path: 'my-app/registration', component: RegistrationComponent},
   ];
 
 @NgModule({
