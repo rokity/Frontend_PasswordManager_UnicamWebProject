@@ -1,6 +1,14 @@
- Email:
-<input type="text" name="email" required [(ngModel)]="this.email">
-<br> Password:
-<input type="password" [(ngModel)]="this.masterkey" name="masterkey">
-<br/>
-<input type="button" value="Login" (click)="login()">
+<div class="container">
+        <form>
+            <div class="form-control" style="width:70%; vertical-align: middle; margin-top: 35px; border-radius: 25px; padding:15px; padding-right: 50px; padding-left: 50px; background-color:#616161;" class="container-fluid">
+                <h2 style="color:#009688; text-align: center; margin-top: 10px" >DominKey</h2>
+                <label style="color:#ffffff" for="InputEmail" class="bmd-label-floating">Email</label>
+                <input type="email" class="form-control" name="email" required [(ngModel)]="this.email">
+                <label style="margin-top: 10px; color:#ffffff" for="InputPassword" class="bmd-label-floating">Password</label>
+                <input type="password" class="form-control" [(ngModel)]="this.masterkey">
+                <span></span>
+                <button style="background-color:#009688; margin-top: 20px; " align="center" type="submit" class="btn btn-primary btn-raised" (click)="login()">Login</button>
+            </div>
+            
+        </form>
+</div>
