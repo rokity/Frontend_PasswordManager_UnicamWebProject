@@ -9,6 +9,7 @@ import { LoginComponent } from '../components/login/login.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
 import { LogoutComponent } from '../components/logout/logout.component';
 import { DomainComponent } from '../components/domain/domain.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,16 +18,17 @@ import { DomainComponent } from '../components/domain/domain.component';
     HomeComponent,
     RegistrationComponent,
     LogoutComponent,
-    DomainComponent
+    DomainComponent,
   ],
   imports: [
     BrowserModule,
     RoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
 
