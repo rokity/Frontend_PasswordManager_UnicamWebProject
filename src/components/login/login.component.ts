@@ -8,32 +8,39 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 
 })
-export class LoginComponent  {
-  email : String ;
-  masterkey : String ;
-  
-  server  = "http://localhost:8000/api/login"
+export class LoginComponent {
+  email: String;
+  masterkey: String;
 
-  constructor(private http : HttpClient,private router: Router) { 
-    
+  server = "http://localhost:8000/api/login"
+
+  constructor(private http: HttpClient, private router: Router) {
+    if(localStorage.getItem('token')!=null)
+      this.router.navigate(['/']);
   }
-  login()
-  {
-    this.http.post(this.server,{email:this.email,masterkey:this.masterkey})
-    .subscribe( data =>
-      {
-       if(data['logged'])
-        this.router.navigate(['/']);
-      else
+  login() {
+   
+    var body = { email: this.email, masterkey: this.masterkey };
+    console.log(body)
+    fetch(this.server, {
+      method: "POST",
+      body: JSON.stringify(body)
+    }).then(res => res.json()).then(val => {
+      if (val.logged == true)
         {
-          alert("Parametri non validi");
-          this.email = null;
-          this.masterkey = null;
-        }
-      })
-    
+          localStorage.setItem("token", val.token);
+          this.router.navigate(['/']);
+        }        
+      else {
+        alert("Parametri non validi");
+        this.email = null;
+        this.masterkey = null;
+      }
+    })
+
   }
- 
- 
- 
+
+
+
+
 }

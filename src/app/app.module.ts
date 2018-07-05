@@ -1,20 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LoginComponent } from '../components/login/login.component';
 import { RoutingModule } from './routing.module';
-import { HomeComponent } from '../components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouteConfigLoadStart } from '@angular/router';
+import { HomeComponent } from '../components/home/home.component';
+import { LoginComponent } from '../components/login/login.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
+import { LogoutComponent } from '../components/logout/logout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
