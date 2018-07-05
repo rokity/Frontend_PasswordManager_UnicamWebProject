@@ -4,17 +4,18 @@ import { AppComponent } from './app.component';
 import { RoutingModule } from './routing.module';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
 import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from '../components/login/login.component';
 import { RegistrationComponent } from '../components/registration/registration.component';
+import { LogoutComponent } from '../components/logout/logout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +23,7 @@ import { RegistrationComponent } from '../components/registration/registration.c
     HttpClientModule,
     FormsModule
   ],
-  providers: [CookieService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
