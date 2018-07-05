@@ -15,7 +15,8 @@ export class RegistrationComponent  {
   server  = "http://localhost:8000/api/register"
 
   constructor(private http : HttpClient,private router: Router) { 
-    
+    if(localStorage.getItem('token')!=null)
+      this.router.navigate(['/']);
   }
   registration()
   {
