@@ -1,0 +1,94 @@
+<style>
+  table {
+    border-radius: 5px;
+    width: 70%;
+    margin: 0px auto;
+    float: none;
+    margin-top: 3%;
+    background-color: #343a40 !important;
+  }
+
+  .center {
+
+    width: 150px;
+    margin: 0px auto;
+    float: none;
+  }
+
+  .thead-dark {
+    background-color: #343a40 !important;
+  }
+
+  main {
+    padding-top: 5%;
+  }
+
+  @media only screen and (max-width: 500px) {
+    main {
+      padding-top: 20%;
+    }
+  }
+</style>
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">
+      <b>DominKey</b>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item" [hidden]="this.domains">
+          <a class="nav-link" href="/domains" routerLinkActive="active">Domains</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item" [hidden]="this.registration">
+          <a class="nav-link" href="/registration" routerLinkActive="active">Registration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main role="main">
+  <div class="center">
+    <button type="button" class="btn btn-primary" (click)="domainAdd()">Add Domain</button>
+  </div>
+
+  <table class="table table-dark" [hidden]="this.hiddenTable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Domain</th>
+        <th scope="col">Password</th>
+        <th scope="col">Created</th>
+        <th scope="col">Modified</th>
+        <th scope="col">Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let domain of domainsArray">
+        <th scope="row">{{domain.ID}}</th>
+        <td>{{domain.DOMAIN}}</td>
+        <td>{{domain.PASSWORD}}</td>
+        <td>{{domain.CREATED}}</td>
+        <td>{{domain.MODIFIED}}</td>
+        <td style='white-space: nowrap'>
+          <button type="button" class="btn btn-link" style="display:inline-block" (click)="domainAdd($event,domain)">Update</button>
+          <button type="button" class="btn btn-link" style="display:inline-block" (click)="domainDelete($event,domain)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
