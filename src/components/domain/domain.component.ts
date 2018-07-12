@@ -63,11 +63,11 @@ export class DomainComponent {
           this.hiddenTable = true
         else {
           this.hiddenTable = false
-          this.item.password=(data[0]['PASSWORD'])
+          this.item.password = (data[0]['PASSWORD'])
         }
       })
   }
-  lengthPassword: number = 0;
+  lengthPassword: number = 5;
   includeNumbers: boolean = false;
   includeSymbols: boolean = false;
   useUpperCase: boolean = false;
@@ -75,26 +75,29 @@ export class DomainComponent {
   excludeThisCharacters: string = "";
   mustInclude: boolean = false;
   generatePassword() {
-    this.item.password = generate({
-      length: this.lengthPassword,
-      numbers: this.includeNumbers,
-      symbols: this.includeSymbols,
-      uppercase: this.useUpperCase,
-      excludeSimilarCharacters: this.excludeSimilarCharacters,
-      exclude: this.excludeThisCharacters,
-      strict: this.mustInclude
-    });
+    if (this.lengthPassword >= 5 && this.lengthPassword <= 30) {
+      this.item.password = generate({
+        length: this.lengthPassword,
+        numbers: this.includeNumbers,
+        symbols: this.includeSymbols,
+        uppercase: this.useUpperCase,
+        excludeSimilarCharacters: this.excludeSimilarCharacters,
+        exclude: this.excludeThisCharacters,
+        strict: this.mustInclude
+      });
+    }
+    else
+      alert("Lunghezza Password non corretta! \nMassimo 30 , Minimo 5")
   }
 
   salvaPassword() {
-    var params ;
+    var params;
     if (this.item.id != null) {
       params = { token: this.token, domain: this.item.domain, psw: this.item.password, domainID: this.item.id };
-      this.item.id=null;
+      this.item.id = null;
       this.savePassword(this.modifyDomain, params);
     }
-    else
-    {
+    else {
       params = { token: this.token, domain: this.item.domain, psw: this.item.password };
       this.savePassword(this.addDomain, params);
     }
@@ -140,8 +143,7 @@ export class DomainComponent {
   }
 
   savePassword(url, params) {
-    console.log("url",url)
-    console.log("params",params)
+
     this.http.post(url, params)
       .subscribe(data => {
         if (data['Authenticated'] == false) {

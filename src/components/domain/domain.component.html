@@ -1,4 +1,9 @@
 <style>
+  body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #5a5a5a;
+  }
   table {
     border-radius: 5px;
     width: 70%;
@@ -9,10 +14,10 @@
   }
 
   .center {
-
-    width: 150px;
-    margin: 0px auto;
-    float: none;
+    width: 155px;
+    margin: 0 auto;
+    float: center;
+    padding-top:5%
   }
 
   .thead-dark {
@@ -21,60 +26,72 @@
 
   main {
     padding-top: 10%;
+  
   }
 
   @media only screen and (max-width: 500px) {
     main {
-      padding-top: 30%;
+      padding-top: 20%;
     }
   }
+
+  body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #5a5a5a;
+  }
+
 </style>
-<header>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">
-      <img src="assets/images/dominKey_logo_white.png" alt="dominKey_logo_white">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home
-            <span class="sr-only">(current)</span>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" href="#">
+            <img src="assets/images/dominKey_logo_white.png" alt="dominKey_logo_white">
           </a>
-        </li>
-        <li class="nav-item" [hidden]="this.domains">
-          <a class="nav-link" href="/domains" routerLinkActive="active">Domains</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item" [hidden]="this.registration">
-          <a class="nav-link" href="/registration" routerLinkActive="active">Registration</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</header>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item" [hidden]="this.domains">
+                <a class="nav-link" href="/domains" routerLinkActive="active">Domini</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item" [hidden]="this.registration">
+                <a class="nav-link" href="/registration" routerLinkActive="active">Registrazione</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
 
 <main role="main">
-  <div class="center">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModel" >Add Domain</button>
-  </div>
+    <div class="form-row text-center">
+        <div class="col-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModel" >Aggiungi Dominio</button>
+        </div>
+     </div>
 
+  <div class="table-responsive">
   <table class="table table-dark" [hidden]="this.hiddenTable">
     <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Domain</th>
+        <th scope="col">Dominio</th>
         <th scope="col">Password</th>
-        <th scope="col">Created</th>
-        <th scope="col">Modified</th>
-        <th scope="col">Operations</th>
+        <th scope="col">Creata</th>
+        <th scope="col">Modificata</th>
+        <th scope="col">Operazioni</th>
       </tr>
     </thead>
     <tbody>
@@ -82,24 +99,25 @@
         <th scope="row">{{domain.id}}</th>
         <td>{{domain.domain}}</td>
         <td>
-          <button type="button" class="btn btn-link" style="display:inline-block" (click)="displayPassword($event,domain.id)">SHOW PASSWORD</button>
+          <button type="button" class="btn btn-link" style="display:inline-block" (click)="displayPassword($event,domain.id)">Mostra Password</button>
         </td>
         <td>{{domain.created}}</td>
         <td>{{domain.modified}}</td>
         <td style='white-space: nowrap'>
           <button type="button" class="btn btn-link" style="display:inline-block"  data-toggle="modal" 
-          data-target="#myModel" (click)="domainUpdate($event,domain.id,domain.domain)"  >Update</button>
+          data-target="#myModel" (click)="domainUpdate($event,domain.id,domain.domain)"  >Aggiornata</button>
           <button type="button" class="btn btn-link" style="display:inline-block" 
-          (click)="domainDelete($event,domain.id)">Delete</button>
+          (click)="domainDelete($event,domain.id)">Elimina</button>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
   <div  class="modal fade" id="myModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Aggiungi Dominio</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -107,41 +125,41 @@
         <div class="modal-body">
           <ul style="list-style-type:disc">
             <li>
-              <label for="dominio">Domain</label>
+              <label for="dominio">Dominio</label>
               <input class="form-control" id="dominio" #this.item.readonly 
               (input)="this.item.domain = $event.target.value" [value]="this.item.domain">
             </li>
             <li>
-              <label for="lengthPassword">Length Password</label>
-              <input class="form-control" id="lengthPassword" type="number" 
+              <label for="lengthPassword">Lunghezza password</label>
+              <input class="form-control" min="5" max="30" id="lengthPassword" type="number" 
                (input)="this.lengthPassword = $event.target.value" [value]="this.lengthPassword"> </li>
             <li>
-              <label for="includeNumbers">Include Numbers</label>
+              <label for="includeNumbers">Includi numeri</label>
               <input id="includeNumbers" class="form-control" type="checkbox" 
               (input)="this.includeNumbers = $event.target.checked" [value]="this.includeNumbers">
             </li>
             <li>
-              <label for="includeSymbols">Include Symbols</label>
+              <label for="includeSymbols">Includi simboli</label>
               <input id="includeSymbols" class="form-control" type="checkbox" 
               (input)="this.includeSymbols = $event.target.checked" [value]="this.includeSymbols">
             </li>
             <li>
-              <label for="useUpperCase">Use UpperCase Letters</label>
+              <label for="useUpperCase">Usa lettere maiuscole</label>
               <input id="useUpperCase" class="form-control" type="checkbox" 
               (input)="this.useUpperCase = $event.target.checked" [value]="this.useUpperCase">
             </li>
             <li>
-              <label for="excludeSimilarCharacters">Exclude Similar Characters</label>
+              <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
               <input id="excludeSimilarCharacters" class="form-control" type="checkbox" 
               (input)="this.excludeSimilarCharacters = $event.target.checked" [value]="this.excludeSimilarCharacters">
             </li>
             <li>
-              <label for="excludeThisCharacters">Exclude this Characters </label>
+              <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
               <input id="excludeThisCharacters" type="text" class="form-control" 
               (input)="this.excludeThisCharacters = $event.target.value" [value]="this.excludeThisCharacters">
             </li>
             <li>
-              <label for="mustInclude">At least one character from each pool</label>
+              <label for="mustInclude">Almeno un carattere per ogni regola</label>
               <input id="mustInclude" type="checkbox" class="form-control" 
               (input)="this.mustInclude = $event.target.checked" [value]="this.mustInclude"> </li>
             <li>
@@ -158,3 +176,4 @@
     </div>
   </div>
 </main>
+</body>
