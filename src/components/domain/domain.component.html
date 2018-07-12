@@ -127,6 +127,7 @@
             <li>
               <label for="dominio">Dominio</label>
               <input class="form-control" id="dominio" #this.item.readonly 
+              placeholder="Esempio: www.facebook.com o facebook.com"
               (input)="this.item.domain = $event.target.value" [value]="this.item.domain">
             </li>
             <li>
