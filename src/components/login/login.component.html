@@ -1,14 +1,10 @@
-
-  <body class="text-center" style="margin-top: 70px">
+  <body [@simpleFadeAnimation]="'in'" class="text-center" style="margin-top: 70px">
     <div class="form-signin" style="border-radius: 25px; background-color: #757575">
-      <h1 class="h3 mb-3 font-weight-normal" style="color: white; margin-top: 10px">DominKey</h1>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input style="margin-top: 20px" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus [(ngModel)]="this.email" >
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input style="margin-top: 2px" type="password" id="inputPassword" class="form-control" placeholder="Password" required [(ngModel)]="this.masterkey">
-      <button style="margin-top: 40px; background-color: #FDD835; color: rgb(90, 90, 90);" class="btn btn-lg btn-primary btn-block" type="submit" (click)="login()">Log in</button>
-      <p style="color: white; margin-top: 20px">&copy; 2017-2018</p>
+        <img src="assets/images/dominKey_logo_white.png" alt="dominKey_logo_white">
+      <input style="margin-top: 20px" type="email" id="inputEmail" class="form-control" placeholder="Indirizzo email" required autofocus [(ngModel)]="this.email" >
+      <input style="margin-top: 2px" type="password" id="inputPassword" class="form-control" placeholder="Masterkey" required [(ngModel)]="this.masterkey">
+      <button style="margin-top: 40px; margin-bottom:15px; background-color: #FDD835; color: rgb(90, 90, 90);" class="btn btn-lg btn-primary btn-block" type="submit" (click)="login()">Log in</button>
+      <a style="color: white" href="/registration">Non sei registrato?</a>
     </div>
   </body>
-
   

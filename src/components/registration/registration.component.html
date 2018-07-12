@@ -1,10 +1,15 @@
-<br>Name:
-<input type="text" name="name" required [(ngModel)]="this.name">
-<br>Surname:
-<input type="text" name="surname" required [(ngModel)]="this.surname">
-<br>Email:
-<input type="text" name="email" required [(ngModel)]="this.email">
-<br> Password:
-<input type="password" [(ngModel)]="this.masterkey" name="masterkey">
-<br/>
-<input type="button" value="Registration" (click)="registration()">
+
+<body [@simpleFadeAnimation]="'in'" class="text-center" style="margin-top: 70px">
+    <div class="form-signin" style="border-radius: 25px; background-color: #757575">
+      <img src="assets/images/dominKey_logo_white.png" alt="dominKey_logo_white">
+      <input style="margin-top: 20px" type="text" class="form-control" placeholder="Nome" required autofocus [(ngModel)]="this.name" >
+      <input style="margin-top: 2px" type="text" class="form-control" placeholder="Congnome" required autofocus [(ngModel)]="this.surname" >
+      <input style="margin-top: 2px" type="email" class="form-control" placeholder="Indirizzo email" required autofocus [(ngModel)]="this.email" >
+      <input style="margin-top: 20px" type="password" id="password" class="form-control" placeholder="Masterkey" required autofocus [(ngModel)]="this.masterkey" >
+      <input style="margin-top: 2px" type="password" id="confirm_password" class="form-control" placeholder="Conferma masterkey" required [(ngModel)]="this.confirmMasterkey">
+      <a id="checkMessage"></a>
+      <button style="margin-top: 40px; margin-bottom:15px; background-color: #FDD835; color: rgb(90, 90, 90);" class="btn btn-lg btn-primary btn-block" type="submit" (click)="registration()">Registrati</button>
+    </div>
+  </body>
+
+  
