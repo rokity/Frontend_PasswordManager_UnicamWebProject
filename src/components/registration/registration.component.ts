@@ -12,7 +12,7 @@ export class RegistrationComponent  {
   surname : String;
   masterkey : String ;
   
-  server  = "http://localhost:8000/api/register"
+  server  = "http://localhost:8000/api/registation"
 
   constructor(private http : HttpClient,private router: Router) { 
     if(localStorage.getItem('token')!=null)
@@ -24,7 +24,10 @@ export class RegistrationComponent  {
      .subscribe( data =>
        {
         if(data['logged'])
-         this.router.navigate(['/']);
+        {
+          localStorage.setItem('token',data['token'])
+          this.router.navigate(['/']);
+        }         
        else
          {
            alert("Parametri non validi");

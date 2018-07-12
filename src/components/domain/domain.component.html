@@ -63,7 +63,7 @@
 
 <main role="main">
   <div class="center">
-    <button type="button" class="btn btn-primary" (click)="domainAdd()">Add Domain</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModel" >Add Domain</button>
   </div>
 
   <table class="table table-dark" [hidden]="this.hiddenTable">
@@ -79,16 +79,82 @@
     </thead>
     <tbody>
       <tr *ngFor="let domain of domainsArray">
-        <th scope="row">{{domain.ID}}</th>
-        <td>{{domain.DOMAIN}}</td>
-        <td>{{domain.PASSWORD}}</td>
-        <td>{{domain.CREATED}}</td>
-        <td>{{domain.MODIFIED}}</td>
+        <th scope="row">{{domain.id}}</th>
+        <td>{{domain.domain}}</td>
+        <td>
+          <button type="button" class="btn btn-link" style="display:inline-block" (click)="displayPassword($event,domain.id)">SHOW PASSWORD</button>
+        </td>
+        <td>{{domain.created}}</td>
+        <td>{{domain.modified}}</td>
         <td style='white-space: nowrap'>
-          <button type="button" class="btn btn-link" style="display:inline-block" (click)="domainAdd($event,domain)">Update</button>
-          <button type="button" class="btn btn-link" style="display:inline-block" (click)="domainDelete($event,domain)">Delete</button>
+          <button type="button" class="btn btn-link" style="display:inline-block"  data-toggle="modal" 
+          data-target="#myModel" (click)="domainUpdate($event,domain.id,domain.domain)"  >Update</button>
+          <button type="button" class="btn btn-link" style="display:inline-block" 
+          (click)="domainDelete($event,domain.id)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
+  <div  class="modal fade" id="myModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul style="list-style-type:disc">
+            <li>
+              <label for="dominio">Domain</label>
+              <input class="form-control" id="dominio" #this.item.readonly 
+              (input)="this.item.domain = $event.target.value" [value]="this.item.domain">
+            </li>
+            <li>
+              <label for="lengthPassword">Length Password</label>
+              <input class="form-control" id="lengthPassword" type="number" 
+               (input)="this.lengthPassword = $event.target.value" [value]="this.lengthPassword"> </li>
+            <li>
+              <label for="includeNumbers">Include Numbers</label>
+              <input id="includeNumbers" class="form-control" type="checkbox" 
+              (input)="this.includeNumbers = $event.target.checked" [value]="this.includeNumbers">
+            </li>
+            <li>
+              <label for="includeSymbols">Include Symbols</label>
+              <input id="includeSymbols" class="form-control" type="checkbox" 
+              (input)="this.includeSymbols = $event.target.checked" [value]="this.includeSymbols">
+            </li>
+            <li>
+              <label for="useUpperCase">Use UpperCase Letters</label>
+              <input id="useUpperCase" class="form-control" type="checkbox" 
+              (input)="this.useUpperCase = $event.target.checked" [value]="this.useUpperCase">
+            </li>
+            <li>
+              <label for="excludeSimilarCharacters">Exclude Similar Characters</label>
+              <input id="excludeSimilarCharacters" class="form-control" type="checkbox" 
+              (input)="this.excludeSimilarCharacters = $event.target.checked" [value]="this.excludeSimilarCharacters">
+            </li>
+            <li>
+              <label for="excludeThisCharacters">Exclude this Characters </label>
+              <input id="excludeThisCharacters" type="text" class="form-control" 
+              (input)="this.excludeThisCharacters = $event.target.value" [value]="this.excludeThisCharacters">
+            </li>
+            <li>
+              <label for="mustInclude">At least one character from each pool</label>
+              <input id="mustInclude" type="checkbox" class="form-control" 
+              (input)="this.mustInclude = $event.target.checked" [value]="this.mustInclude"> </li>
+            <li>
+              <label for="pw">Passowrd</label>
+              <input id="pw" class="form-control"  readonly  [value]="this.item.password"> </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-warning" (click)="generatePassword()">Generate Password</button>
+          <button type="button" class="btn btn-primary" (click)="salvaPassword()">Save Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
