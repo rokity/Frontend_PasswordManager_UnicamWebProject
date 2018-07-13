@@ -31,8 +31,7 @@ export class LoginComponent {
   server = "http://localhost:8000/api/login"
 
   constructor(private http: HttpClient, private router: Router) {
-    if (localStorage.getItem('token') != null)
-      this.router.navigate(['/']);
+    
   }
   login() {
     if (this.emailValidation() || !this.masterkey == undefined) {
