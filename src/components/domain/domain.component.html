@@ -54,20 +54,20 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-nuovoDominio active">
                 <a class="nav-link" href="#">Home
                   <span class="sr-only">(current)</span>
                 </a>
               </li>
-              <li class="nav-item" [hidden]="this.domains">
+              <li class="nav-nuovoDominio" [hidden]="this.domains">
                 <a class="nav-link" href="/domains" routerLinkActive="active">Domini</a>
               </li>
             </ul>
             <ul class="navbar-nav">
-              <li class="nav-item" [hidden]="this.registration">
+              <li class="nav-nuovoDominio" [hidden]="this.registration">
                 <a class="nav-link" href="/registration" routerLinkActive="active">Registrazione</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-nuovoDominio">
                 <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
               </li>
             </ul>
@@ -78,7 +78,7 @@
 <main role="main">
     <div class="form-row text-center">
         <div class="col-12">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModel" >Aggiungi Dominio</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuovoDominio" >Aggiungi Dominio</button>
         </div>
      </div>
 
@@ -99,13 +99,14 @@
         <th scope="row">{{domain.id}}</th>
         <td>{{domain.domain}}</td>
         <td>
-          <button type="button" class="btn btn-link" style="display:inline-block" (click)="displayPassword($event,domain.id)">Mostra Password</button>
+          <button type="button" class="btn btn-link" style="display:inline-block" 
+          (click)="displayPassword($event,domain.id)">Mostra Password</button>
         </td>
         <td>{{domain.created}}</td>
         <td>{{domain.modified}}</td>
         <td style='white-space: nowrap'>
           <button type="button" class="btn btn-link" style="display:inline-block"  data-toggle="modal" 
-          data-target="#myModel" (click)="domainUpdate($event,domain.id,domain.domain)"  >Aggiorna</button>
+          data-target="#aggiornaDominio" (click)="domainUpdate($event,domain.id,domain.domain)"  >Aggiorna</button>
           <button type="button" class="btn btn-link" style="display:inline-block" 
           (click)="domainDelete($event,domain.id)">Elimina</button>
         </td>
@@ -113,7 +114,8 @@
     </tbody>
   </table>
 </div>
-  <div  class="modal fade" id="myModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <!-- Nuovo Dominio -->
+  <div  class="modal fade" id="nuovoDominio" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -126,52 +128,116 @@
           <ul style="list-style-type:disc">
             <li>
               <label for="dominio">Dominio</label>
-              <input class="form-control" id="dominio" #this.item.readonly 
+              <input class="form-control" id="dominio" #this.nuovoDominio.readonly 
               placeholder="Esempio: www.facebook.com o facebook.com"
-              (input)="this.item.domain = $event.target.value" [value]="this.item.domain">
+              (input)="this.nuovoDominio.domain = $event.target.value" [value]="this.nuovoDominio.domain">
             </li>
             <li>
               <label for="lengthPassword">Lunghezza password</label>
               <input class="form-control" min="5" max="30" id="lengthPassword" type="number" 
-               (input)="this.lengthPassword = $event.target.value" [value]="this.lengthPassword"> </li>
+               (input)="this.nuovoDominio.lengthPassword = $event.target.value" [value]="this.nuovoDominio.lengthPassword"> </li>
             <li>
               <label for="includeNumbers">Includi numeri</label>
               <input id="includeNumbers" class="form-control" type="checkbox" 
-              (input)="this.includeNumbers = $event.target.checked" [value]="this.includeNumbers">
+              (input)="this.nuovoDominio.includeNumbers = $event.target.checked" [value]="this.nuovoDominio.includeNumbers">
             </li>
             <li>
               <label for="includeSymbols">Includi simboli</label>
               <input id="includeSymbols" class="form-control" type="checkbox" 
-              (input)="this.includeSymbols = $event.target.checked" [value]="this.includeSymbols">
+              (input)="this.nuovoDominio.includeSymbols = $event.target.checked" [value]="this.nuovoDominio.includeSymbols">
             </li>
             <li>
               <label for="useUpperCase">Usa lettere maiuscole</label>
               <input id="useUpperCase" class="form-control" type="checkbox" 
-              (input)="this.useUpperCase = $event.target.checked" [value]="this.useUpperCase">
+              (input)="this.nuovoDominio.useUpperCase = $event.target.checked" [value]="this.nuovoDominio.useUpperCase">
             </li>
             <li>
               <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
               <input id="excludeSimilarCharacters" class="form-control" type="checkbox" 
-              (input)="this.excludeSimilarCharacters = $event.target.checked" [value]="this.excludeSimilarCharacters">
+              (input)="this.nuovoDominio.excludeSimilarCharacters = $event.target.checked" [value]="this.nuovoDominio.excludeSimilarCharacters">
             </li>
             <li>
               <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
               <input id="excludeThisCharacters" type="text" class="form-control" 
-              (input)="this.excludeThisCharacters = $event.target.value" [value]="this.excludeThisCharacters">
+              (input)="this.nuovoDominio.excludeThisCharacters = $event.target.value" [value]="this.nuovoDominio.excludeThisCharacters">
             </li>
             <li>
               <label for="mustInclude">Almeno un carattere per ogni regola</label>
               <input id="mustInclude" type="checkbox" class="form-control" 
-              (input)="this.mustInclude = $event.target.checked" [value]="this.mustInclude"> </li>
+              (input)="this.nuovoDominio.mustInclude = $event.target.checked" [value]="this.nuovoDominio.mustInclude"> </li>
             <li>
               <label for="pw">Passowrd</label>
-              <input id="pw" class="form-control"  readonly  [value]="this.item.password"> </li>
+              <input id="pw" class="form-control"  readonly  [value]="this.nuovoDominio.password"> </li>
           </ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-warning" (click)="generatePassword()">Generate Password</button>
           <button type="button" class="btn btn-primary" (click)="salvaPassword()">Save Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Aggiorna Dominio-->
+  <div  class="modal fade" id="aggiornaDominio" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Aggiorna Dominio</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul style="list-style-type:disc">
+            <li>
+              <label for="dominio">Dominio</label>
+              <input class="form-control" id="dominio" 
+              placeholder="Esempio: www.facebook.com o facebook.com"
+              (input)="this.aggiornaDominio.domain = $event.target.value" [value]="this.aggiornaDominio.domain">
+            </li>
+            <li>
+              <label for="lengthPassword">Lunghezza password</label>
+              <input class="form-control" min="5" max="30" id="lengthPassword" type="number" 
+               (input)="this.aggiornaDominio.lengthPassword = $event.target.value" [value]="this.aggiornaDominio.lengthPassword"> </li>
+            <li>
+              <label for="includeNumbers">Includi numeri</label>
+              <input id="includeNumbers" class="form-control" type="checkbox" 
+              (input)="this.aggiornaDominio.includeNumbers = $event.target.checked" [value]="this.aggiornaDominio.includeNumbers">
+            </li>
+            <li>
+              <label for="includeSymbols">Includi simboli</label>
+              <input id="includeSymbols" class="form-control" type="checkbox" 
+              (input)="this.aggiornaDominio.includeSymbols = $event.target.checked" [value]="this.aggiornaDominio.includeSymbols">
+            </li>
+            <li>
+              <label for="useUpperCase">Usa lettere maiuscole</label>
+              <input id="useUpperCase" class="form-control" type="checkbox" 
+              (input)="this.aggiornaDominio.useUpperCase = $event.target.checked" [value]="this.aggiornaDominio.useUpperCase">
+            </li>
+            <li>
+              <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
+              <input id="excludeSimilarCharacters" class="form-control" type="checkbox" 
+              (input)="this.aggiornaDominio.excludeSimilarCharacters = $event.target.checked" [value]="this.aggiornaDominio.excludeSimilarCharacters">
+            </li>
+            <li>
+              <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
+              <input id="excludeThisCharacters" type="text" class="form-control" 
+              (input)="this.aggiornaDominio.excludeThisCharacters = $event.target.value" [value]="this.aggiornaDominio.excludeThisCharacters">
+            </li>
+            <li>
+              <label for="mustInclude">Almeno un carattere per ogni regola</label>
+              <input id="mustInclude" type="checkbox" class="form-control" 
+              (input)="this.aggiornaDominio.mustInclude = $event.target.checked" [value]="this.aggiornaDominio.mustInclude"> </li>
+            <li>
+              <label for="pw">Passowrd</label>
+              <input id="pw" class="form-control"  readonly  [value]="this.aggiornaDominio.password"> </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-warning" (click)="generatePasswordUpdate()">Generate Password</button>
+          <button type="button" class="btn btn-primary" (click)="aggiornaPassword()">Save Password</button>
         </div>
       </div>
     </div>

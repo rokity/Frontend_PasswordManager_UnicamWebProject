@@ -15,17 +15,18 @@ export class DomainComponent {
   registration = false;
   domains = false;
   token = localStorage.getItem('token');
+  aggiornaDominio = { id: '', domain: '', lengthPassword: 5, includeNumbers: false, includeSymbols: false, useUpperCase: false, excludeSimilarCharacters: false, excludeThisCharacters: '', mustInclude: false, password: '' }
+  nuovoDominio = { domain: '', lengthPassword: 5, includeNumbers: false, includeSymbols: false, useUpperCase: false, excludeSimilarCharacters: false, excludeThisCharacters: '', mustInclude: false, password: '' }
 
-  getAll = "http://localhost:8000/api/domain/getall"
   domainsArray: Object;
   hiddenTable = true;
 
-  addDomain = "http://localhost:8000/api/domain/add"
-  modifyDomain = "http://localhost:8000/api/domain/modify"
+
+
 
   ApiDeleteDomain = "http://localhost:8000/api/domain/delete"
 
-  ApiGetPassword = "http://localhost:8000/api/domain/get"
+
 
   constructor(private http: HttpClient, private router: Router) {
     this.navbar();
@@ -33,7 +34,7 @@ export class DomainComponent {
   }
 
   navbar() {
-    if (localStorage.getItem('token')) {
+    if (this.token != null) {
       this.domains = false;
       this.registration = true;
       this.testo = "Logout"
@@ -46,14 +47,10 @@ export class DomainComponent {
     }
   }
 
-
-  item: any = { domain: '', id: null, readonly: '', password: '' };
-  domainUpdate(event, id, domain) {
-    this.item.domain = domain;
-    this.item.id = id;
-    this.item.readonly = "readonly";
-    let params = new HttpParams().set('token', localStorage.getItem('token')).set('domainID', id);
-    this.http.get(this.ApiGetPassword, { params: params })
+  loadDomains() {
+    let params = new HttpParams().set('token', this.token);
+    var url = "http://localhost:8000/api/domain/getall";
+    this.http.get(url, { params: params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
@@ -63,99 +60,100 @@ export class DomainComponent {
           this.hiddenTable = true
         else {
           this.hiddenTable = false
-          this.item.password = (data[0]['PASSWORD'])
+          this.domainsArray = data['domains'];
         }
       })
   }
-  lengthPassword: number = 5;
-  includeNumbers: boolean = false;
-  includeSymbols: boolean = false;
-  useUpperCase: boolean = false;
-  excludeSimilarCharacters: boolean = false;
-  excludeThisCharacters: string = "";
-  mustInclude: boolean = false;
+
+
+  displayPassword(event, domainID) {
+    let params = new HttpParams().set('token', this.token).set('domainID', domainID);
+    var url = "http://localhost:8000/api/domain/get"
+    this.http.get(url, { params: params })
+      .subscribe(data => {
+        if (data['authenticated'] == false) {
+          localStorage.removeItem('token')
+          this.router.navigate(['/login']);
+        }
+        if (data['domain'] == false)
+          this.hiddenTable = true
+        else {
+          this.hiddenTable = false
+          swal(data['password'])
+        }
+      })
+  }
+
+
+
+  domainUpdate(event, id, domain) {
+    this.aggiornaDominio.domain = domain;
+    this.aggiornaDominio.id = id;
+    let params = new HttpParams().set('token', this.token).set('domainID', id);
+    var url = "http://localhost:8000/api/domain/get"
+    this.http.get(url, { params: params })
+      .subscribe(data => {
+        if (data['authenticated'] == false) {
+          localStorage.removeItem('token')
+          this.router.navigate(['/login']);
+        }
+        if (data['domains'] == false)
+          this.hiddenTable = true
+        else {
+          this.hiddenTable = false
+          this.aggiornaDominio.password = (data['password'])
+        }
+      })
+  }
+
   generatePassword() {
-    if (this.lengthPassword >= 5 && this.lengthPassword <= 30) {
-      this.item.password = generate({
-        length: this.lengthPassword,
-        numbers: this.includeNumbers,
-        symbols: this.includeSymbols,
-        uppercase: this.useUpperCase,
-        excludeSimilarCharacters: this.excludeSimilarCharacters,
-        exclude: this.excludeThisCharacters,
-        strict: this.mustInclude
+    if (this.nuovoDominio.lengthPassword >= 5 && this.nuovoDominio.lengthPassword <= 30) {
+      this.nuovoDominio.password = generate({
+        length: this.nuovoDominio.lengthPassword,
+        numbers: this.nuovoDominio.includeNumbers,
+        symbols: this.nuovoDominio.includeSymbols,
+        uppercase: this.nuovoDominio.useUpperCase,
+        excludeSimilarCharacters: this.nuovoDominio.excludeSimilarCharacters,
+        exclude: this.nuovoDominio.excludeThisCharacters,
+        strict: this.nuovoDominio.mustInclude
       });
     }
     else
-      alert("Lunghezza Password non corretta! \nMassimo 30 , Minimo 5")
+      swal("Lunghezza Password non corretta! \nMassimo 30 , Minimo 5")
   }
+
+  generatePasswordUpdate() {
+    if (this.aggiornaDominio.lengthPassword >= 5 && this.aggiornaDominio.lengthPassword <= 30) {
+      this.aggiornaDominio.password = generate({
+        length: this.aggiornaDominio.lengthPassword,
+        numbers: this.aggiornaDominio.includeNumbers,
+        symbols: this.aggiornaDominio.includeSymbols,
+        uppercase: this.aggiornaDominio.useUpperCase,
+        excludeSimilarCharacters: this.aggiornaDominio.excludeSimilarCharacters,
+        exclude: this.aggiornaDominio.excludeThisCharacters,
+        strict: this.aggiornaDominio.mustInclude
+      });
+    }
+    else
+      swal("Lunghezza Password non corretta! \nMassimo 30 , Minimo 5")
+  }
+
 
   salvaPassword() {
-    var params;
-    if (this.item.id != null) {
-      params = { token: this.token, domain: this.item.domain, psw: this.item.password, domainID: this.item.id };
-      this.item.id = null;
-      this.savePassword(this.modifyDomain, params);
-    }
-    else {
-      params = { token: this.token, domain: this.item.domain, psw: this.item.password };
-      this.savePassword(this.addDomain, params);
-    }
-
-  }
-
-  displayPassword(event, domainID) {
-    let params = new HttpParams().set('token', localStorage.getItem('token')).set('domainID', domainID);
-    this.http.get(this.ApiGetPassword, { params: params })
-      .subscribe(data => {
-        if (data['authenticated'] == false) {
-          localStorage.removeItem('token')
-          this.router.navigate(['/login']);
-        }
-        if (data['domains'] == false)
-          this.hiddenTable = true
-        else {
-          this.hiddenTable = false
-          alert(data[0]['PASSWORD'])
-        }
-      })
-  }
-
-  //API REQUESTS
-
-  loadDomains() {
-    let params = new HttpParams().set('token', localStorage.getItem('token'));
-    this.http.get(this.getAll, { params: params })
-      .subscribe(data => {
-        if (data['authenticated'] == false) {
-          localStorage.removeItem('token')
-          this.router.navigate(['/login']);
-        }
-        if (data['domains'] == false)
-          this.hiddenTable = true
-        else {
-          this.hiddenTable = false
-          this.domainsArray = data;
-
-        }
-
-      })
-  }
-
-  savePassword(url, params) {
-
+    var params = { token: this.token, domain: this.nuovoDominio.domain, psw: this.nuovoDominio.password };
+    var url = "http://localhost:8000/api/domain/add"
     this.http.post(url, params)
       .subscribe(data => {
-        if (data['Authenticated'] == false) {
+        if (data['authenticated'] == false) {
           localStorage.removeItem('token')
           this.router.navigate(['/login']);
         }
         if (data['domainAlreadyInserted'] == true)
-          swal('Domain already exist')
+          swal('Dominio già esistente')
         else if (data['DomainAdded'] == false)
-          swal('Domain not added')
+          swal('Dominio non aggiunto')
         else {
-          swal('Domain added').then(val => location.reload());
+          swal('Dominio aggiunto').then(val => location.reload());
         }
 
       })
@@ -165,16 +163,37 @@ export class DomainComponent {
     var params = { token: this.token, domainID };
     this.http.post(this.ApiDeleteDomain, params)
       .subscribe(data => {
-        if (data['Authenticated'] == false) {
+        if (data['authenticated'] == false) {
           localStorage.removeItem('token')
           this.router.navigate(['/login']);
         }
+        else if (data['deleted'] == 0) {
+          console.error(data['error']);
+          swal("Dominio non eliminato");
+        }
         else {
-          swal('Domain deleted').then(val => location.reload());
+          swal('Dominio eliminato').then(val => location.reload());
         }
       })
   }
 
+  aggiornaPassword() {
+    var params = { token: this.token, domain: this.aggiornaDominio.domain, psw: this.aggiornaDominio.password, domainID: this.aggiornaDominio.id };
+    var url = "http://localhost:8000/api/domain/modify"
+    this.http.post(url, params)
+      .subscribe(data => {
+        if (data['authenticated'] == false) {
+          localStorage.removeItem('token')
+          this.router.navigate(['/login']);
+        }
+        else if (data['error'])
+          swal('Dominio Non Aggiornato')
+        else {
+          swal('Dominio Aggiornato').then(val => location.reload());
+        }
+
+      })
+  }
 
 
 }

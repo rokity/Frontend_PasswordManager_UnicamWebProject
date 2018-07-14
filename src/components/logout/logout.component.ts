@@ -21,8 +21,10 @@ export class LogoutComponent {
       let params = new HttpParams().set('token', localStorage.getItem('token'));
       this.http.get(this.server, { params: params })
         .subscribe(data => {
-          localStorage.removeItem('token')
-          this.router.navigate(['/'])
+          if (data['removed']) {
+            localStorage.removeItem('token')
+            this.router.navigate(['/'])
+          }
         })
     }
 
