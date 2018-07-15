@@ -29,6 +29,7 @@ export class HomeComponent {
   title = 'DominKey';
   testo = ''
   link = ''
+  modificaProfilo = true; 
   registration = false;
   domains = false;
 
@@ -43,12 +44,14 @@ export class HomeComponent {
       this.registration = true;
       this.testo = "Logout"
       this.link = 'http://localhost:4200/logout'
+      this.modificaProfilo = false;
     }
     else {
       this.registration = false;
       this.domains = true;
       this.testo = "Login"
       this.link = 'http://localhost:4200/login'
+      this.modificaProfilo = true;
     }
   }
 }

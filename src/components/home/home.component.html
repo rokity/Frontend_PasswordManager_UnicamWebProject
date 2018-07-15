@@ -18,9 +18,12 @@
           <li class="nav-item" [hidden]="this.registration">
             <a class="nav-link" href="/registration" routerLinkActive="active">Registrazione</a>
           </li>
+          <li class="nav-item" [hidden]="this.modificaProfilo">
+            <a class="nav-link" href="/profilo" routerLinkActive="active">Modifca Profilo</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
-          </li>
+          </li>          
         </ul>
       </div>
     </nav>

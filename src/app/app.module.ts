@@ -10,6 +10,7 @@ import { RegistrationComponent } from '../components/registration/registration.c
 import { LogoutComponent } from '../components/logout/logout.component';
 import { DomainComponent } from '../components/domain/domain.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfiloComponent } from '../components/profilo/profilo.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegistrationComponent,
     LogoutComponent,
     DomainComponent,
+    ProfiloComponent,
   ],
   imports: [
     BrowserModule,
