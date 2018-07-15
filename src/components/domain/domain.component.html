@@ -4,6 +4,7 @@
     padding-bottom: 3rem;
     color: #5a5a5a;
   }
+
   table {
     border-radius: 5px;
     width: 70%;
@@ -17,7 +18,7 @@
     width: 155px;
     margin: 0 auto;
     float: center;
-    padding-top:5%
+    padding-top: 5%
   }
 
   .thead-dark {
@@ -26,7 +27,7 @@
 
   main {
     padding-top: 10%;
-  
+
   }
 
   @media only screen and (max-width: 500px) {
@@ -40,208 +41,203 @@
     padding-bottom: 3rem;
     color: #5a5a5a;
   }
-
 </style>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <a class="navbar-brand" href="#">
-            <img src="assets/images/dominKey_logo_white.png" alt="dominKey_logo_white">
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-nuovoDominio active">
-                <a class="nav-link" href="#">Home
-                  <span class="sr-only">(current)</span>
-                </a>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">
+        <img src="assets/images/dominKey_logo_white.png" alt="dominKey_logo_white">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-nuovoDominio active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-nuovoDominio" [hidden]="this.domains">
+            <a class="nav-link" href="/domains" routerLinkActive="active">Domini</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-nuovoDominio" [hidden]="this.registration">
+            <a class="nav-link" href="/registration" routerLinkActive="active">Registrazione</a>
+          </li>
+          <li class="nav-nuovoDominio">
+            <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main role="main">
+    <div class="form-row text-center">
+      <div class="col-12">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuovoDominio">Aggiungi Dominio</button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-dark" [hidden]="this.hiddenTable">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dominio</th>
+            <th scope="col">Password</th>
+            <th scope="col">Creata</th>
+            <th scope="col">Modificata</th>
+            <th scope="col">Operazioni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let domain of domainsArray">
+            <th scope="row">{{domain.id}}</th>
+            <td>{{domain.domain}}</td>
+            <td>
+              <button type="button" class="btn btn-link" style="display:inline-block" (click)="displayPassword($event,domain.id)">Mostra Password</button>
+            </td>
+            <td>{{domain.created}}</td>
+            <td>{{domain.modified}}</td>
+            <td style='white-space: nowrap'>
+              <button type="button" class="btn btn-link" style="display:inline-block" data-toggle="modal" data-target="#aggiornaDominio"
+                (click)="domainUpdate($event,domain.id,domain.domain)">Aggiorna</button>
+              <button type="button" class="btn btn-link" style="display:inline-block" (click)="domainDelete($event,domain.id)">Elimina</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Nuovo Dominio -->
+    <div class="modal fade" id="nuovoDominio" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Aggiungi Dominio</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul style="list-style-type:disc">
+              <li>
+                <label for="dominio">Dominio</label>
+                <input class="form-control" id="dominio" placeholder="Esempio: www.facebook.com o facebook.com" (input)="this.nuovoDominio.domain = $event.target.value"
+                  [value]="this.nuovoDominio.domain">
               </li>
-              <li class="nav-nuovoDominio" [hidden]="this.domains">
-                <a class="nav-link" href="/domains" routerLinkActive="active">Domini</a>
+              <li>
+                <label for="lengthPassword">Lunghezza password</label>
+                <input class="form-control" min="5" max="30" id="lengthPassword" type="number" (input)="this.nuovoDominio.lengthPassword = $event.target.value"
+                  [value]="this.nuovoDominio.lengthPassword"> </li>
+              <li>
+                <label for="includeNumbers">Includi numeri</label>
+                <input id="includeNumbers" class="form-control" type="checkbox" (input)="this.nuovoDominio.includeNumbers = $event.target.checked"
+                  [value]="this.nuovoDominio.includeNumbers">
               </li>
-            </ul>
-            <ul class="navbar-nav">
-              <li class="nav-nuovoDominio" [hidden]="this.registration">
-                <a class="nav-link" href="/registration" routerLinkActive="active">Registrazione</a>
+              <li>
+                <label for="includeSymbols">Includi simboli</label>
+                <input id="includeSymbols" class="form-control" type="checkbox" (input)="this.nuovoDominio.includeSymbols = $event.target.checked"
+                  [value]="this.nuovoDominio.includeSymbols">
               </li>
-              <li class="nav-nuovoDominio">
-                <a class="nav-link" [href]="this.link" routerLinkActive="active">{{this.testo}}</a>
+              <li>
+                <label for="useUpperCase">Usa lettere maiuscole</label>
+                <input id="useUpperCase" class="form-control" type="checkbox" (input)="this.nuovoDominio.useUpperCase = $event.target.checked"
+                  [value]="this.nuovoDominio.useUpperCase">
               </li>
+              <li>
+                <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
+                <input id="excludeSimilarCharacters" class="form-control" type="checkbox" (input)="this.nuovoDominio.excludeSimilarCharacters = $event.target.checked"
+                  [value]="this.nuovoDominio.excludeSimilarCharacters">
+              </li>
+              <li>
+                <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
+                <input id="excludeThisCharacters" type="text" class="form-control" (input)="this.nuovoDominio.excludeThisCharacters = $event.target.value"
+                  [value]="this.nuovoDominio.excludeThisCharacters">
+              </li>
+              <li>
+                <label for="mustInclude">Almeno un carattere per ogni regola</label>
+                <input id="mustInclude" type="checkbox" class="form-control" (input)="this.nuovoDominio.mustInclude = $event.target.checked"
+                  [value]="this.nuovoDominio.mustInclude"> </li>
+              <li>
+                <label for="pw">Passowrd</label>
+                <input id="pw" class="form-control" readonly [value]="this.nuovoDominio.password"> </li>
             </ul>
           </div>
-        </nav>
-      </header>
-
-<main role="main">
-    <div class="form-row text-center">
-        <div class="col-12">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuovoDominio" >Aggiungi Dominio</button>
-        </div>
-     </div>
-
-  <div class="table-responsive">
-  <table class="table table-dark" [hidden]="this.hiddenTable">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Dominio</th>
-        <th scope="col">Password</th>
-        <th scope="col">Creata</th>
-        <th scope="col">Modificata</th>
-        <th scope="col">Operazioni</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let domain of domainsArray">
-        <th scope="row">{{domain.id}}</th>
-        <td>{{domain.domain}}</td>
-        <td>
-          <button type="button" class="btn btn-link" style="display:inline-block" 
-          (click)="displayPassword($event,domain.id)">Mostra Password</button>
-        </td>
-        <td>{{domain.created}}</td>
-        <td>{{domain.modified}}</td>
-        <td style='white-space: nowrap'>
-          <button type="button" class="btn btn-link" style="display:inline-block"  data-toggle="modal" 
-          data-target="#aggiornaDominio" (click)="domainUpdate($event,domain.id,domain.domain)"  >Aggiorna</button>
-          <button type="button" class="btn btn-link" style="display:inline-block" 
-          (click)="domainDelete($event,domain.id)">Elimina</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-  <!-- Nuovo Dominio -->
-  <div  class="modal fade" id="nuovoDominio" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Aggiungi Dominio</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <ul style="list-style-type:disc">
-            <li>
-              <label for="dominio">Dominio</label>
-              <input class="form-control" id="dominio"  
-              placeholder="Esempio: www.facebook.com o facebook.com"
-              (input)="this.nuovoDominio.domain = $event.target.value" [value]="this.nuovoDominio.domain">
-            </li>
-            <li>
-              <label for="lengthPassword">Lunghezza password</label>
-              <input class="form-control" min="5" max="30" id="lengthPassword" type="number" 
-               (input)="this.nuovoDominio.lengthPassword = $event.target.value" [value]="this.nuovoDominio.lengthPassword"> </li>
-            <li>
-              <label for="includeNumbers">Includi numeri</label>
-              <input id="includeNumbers" class="form-control" type="checkbox" 
-              (input)="this.nuovoDominio.includeNumbers = $event.target.checked" [value]="this.nuovoDominio.includeNumbers">
-            </li>
-            <li>
-              <label for="includeSymbols">Includi simboli</label>
-              <input id="includeSymbols" class="form-control" type="checkbox" 
-              (input)="this.nuovoDominio.includeSymbols = $event.target.checked" [value]="this.nuovoDominio.includeSymbols">
-            </li>
-            <li>
-              <label for="useUpperCase">Usa lettere maiuscole</label>
-              <input id="useUpperCase" class="form-control" type="checkbox" 
-              (input)="this.nuovoDominio.useUpperCase = $event.target.checked" [value]="this.nuovoDominio.useUpperCase">
-            </li>
-            <li>
-              <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
-              <input id="excludeSimilarCharacters" class="form-control" type="checkbox" 
-              (input)="this.nuovoDominio.excludeSimilarCharacters = $event.target.checked" [value]="this.nuovoDominio.excludeSimilarCharacters">
-            </li>
-            <li>
-              <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
-              <input id="excludeThisCharacters" type="text" class="form-control" 
-              (input)="this.nuovoDominio.excludeThisCharacters = $event.target.value" [value]="this.nuovoDominio.excludeThisCharacters">
-            </li>
-            <li>
-              <label for="mustInclude">Almeno un carattere per ogni regola</label>
-              <input id="mustInclude" type="checkbox" class="form-control" 
-              (input)="this.nuovoDominio.mustInclude = $event.target.checked" [value]="this.nuovoDominio.mustInclude"> </li>
-            <li>
-              <label for="pw">Passowrd</label>
-              <input id="pw" class="form-control"   readonly
-                [value]="this.nuovoDominio.password"> </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-warning" (click)="generatePassword()">Generate Password</button>
-          <button type="button" class="btn btn-primary" (click)="salvaPassword()">Save Password</button>
+          <div class="modal-footer form-inline" >
+                <button type="button" style="margin-top: 5px;" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" style="margin-top: 5px;" class="btn btn-warning" (click)="generatePassword()">Generate Password</button>
+                <button type="button" style="margin-top: 5px;" class="btn btn-primary" (click)="salvaPassword()">Save Password</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Aggiorna Dominio-->
-  <div  class="modal fade" id="aggiornaDominio" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Aggiorna Dominio</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <ul style="list-style-type:disc">
-            <li>
-              <label for="dominio">Dominio</label>
-              <input class="form-control" id="dominio" 
-              placeholder="Esempio: www.facebook.com o facebook.com"
-              (input)="this.aggiornaDominio.domain = $event.target.value" [value]="this.aggiornaDominio.domain">
-            </li>
-            <li>
-              <label for="lengthPassword">Lunghezza password</label>
-              <input class="form-control" min="5" max="30" id="lengthPassword" type="number" 
-               (input)="this.aggiornaDominio.lengthPassword = $event.target.value" [value]="this.aggiornaDominio.lengthPassword"> </li>
-            <li>
-              <label for="includeNumbers">Includi numeri</label>
-              <input id="includeNumbers" class="form-control" type="checkbox" 
-              (input)="this.aggiornaDominio.includeNumbers = $event.target.checked" [value]="this.aggiornaDominio.includeNumbers">
-            </li>
-            <li>
-              <label for="includeSymbols">Includi simboli</label>
-              <input id="includeSymbols" class="form-control" type="checkbox" 
-              (input)="this.aggiornaDominio.includeSymbols = $event.target.checked" [value]="this.aggiornaDominio.includeSymbols">
-            </li>
-            <li>
-              <label for="useUpperCase">Usa lettere maiuscole</label>
-              <input id="useUpperCase" class="form-control" type="checkbox" 
-              (input)="this.aggiornaDominio.useUpperCase = $event.target.checked" [value]="this.aggiornaDominio.useUpperCase">
-            </li>
-            <li>
-              <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
-              <input id="excludeSimilarCharacters" class="form-control" type="checkbox" 
-              (input)="this.aggiornaDominio.excludeSimilarCharacters = $event.target.checked" [value]="this.aggiornaDominio.excludeSimilarCharacters">
-            </li>
-            <li>
-              <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
-              <input id="excludeThisCharacters" type="text" class="form-control" 
-              (input)="this.aggiornaDominio.excludeThisCharacters = $event.target.value" [value]="this.aggiornaDominio.excludeThisCharacters">
-            </li>
-            <li>
-              <label for="mustInclude">Almeno un carattere per ogni regola</label>
-              <input id="mustInclude" type="checkbox" class="form-control" 
-              (input)="this.aggiornaDominio.mustInclude = $event.target.checked" [value]="this.aggiornaDominio.mustInclude"> </li>
-            <li>
-              <label for="pw">Passowrd</label>
-              <input id="pw" class="form-control"  readonly  [value]="this.aggiornaDominio.password"> </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-warning" (click)="generatePasswordUpdate()">Generate Password</button>
-          <button type="button" class="btn btn-primary" (click)="aggiornaPassword()">Save Password</button>
+    <!-- Aggiorna Dominio-->
+    <div class="modal fade" id="aggiornaDominio" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Aggiorna Dominio</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul style="list-style-type:disc">
+              <li>
+                <label for="dominio">Dominio</label>
+                <input class="form-control" id="dominio" placeholder="Esempio: www.facebook.com o facebook.com" (input)="this.aggiornaDominio.domain = $event.target.value"
+                  [value]="this.aggiornaDominio.domain">
+              </li>
+              <li>
+                <label for="lengthPassword">Lunghezza password</label>
+                <input class="form-control" min="5" max="30" id="lengthPassword" type="number" (input)="this.aggiornaDominio.lengthPassword = $event.target.value"
+                  [value]="this.aggiornaDominio.lengthPassword"> </li>
+              <li>
+                <label for="includeNumbers">Includi numeri</label>
+                <input id="includeNumbers" class="form-control" type="checkbox" (input)="this.aggiornaDominio.includeNumbers = $event.target.checked"
+                  [value]="this.aggiornaDominio.includeNumbers">
+              </li>
+              <li>
+                <label for="includeSymbols">Includi simboli</label>
+                <input id="includeSymbols" class="form-control" type="checkbox" (input)="this.aggiornaDominio.includeSymbols = $event.target.checked"
+                  [value]="this.aggiornaDominio.includeSymbols">
+              </li>
+              <li>
+                <label for="useUpperCase">Usa lettere maiuscole</label>
+                <input id="useUpperCase" class="form-control" type="checkbox" (input)="this.aggiornaDominio.useUpperCase = $event.target.checked"
+                  [value]="this.aggiornaDominio.useUpperCase">
+              </li>
+              <li>
+                <label for="excludeSimilarCharacters">Escludi caratteri simili</label>
+                <input id="excludeSimilarCharacters" class="form-control" type="checkbox" (input)="this.aggiornaDominio.excludeSimilarCharacters = $event.target.checked"
+                  [value]="this.aggiornaDominio.excludeSimilarCharacters">
+              </li>
+              <li>
+                <label for="excludeThisCharacters">Escludi i seguenti caratteri</label>
+                <input id="excludeThisCharacters" type="text" class="form-control" (input)="this.aggiornaDominio.excludeThisCharacters = $event.target.value"
+                  [value]="this.aggiornaDominio.excludeThisCharacters">
+              </li>
+              <li>
+                <label for="mustInclude">Almeno un carattere per ogni regola</label>
+                <input id="mustInclude" type="checkbox" class="form-control" (input)="this.aggiornaDominio.mustInclude = $event.target.checked"
+                  [value]="this.aggiornaDominio.mustInclude"> </li>
+              <li>
+                <label for="pw">Passowrd</label>
+                <input id="pw" class="form-control" readonly [value]="this.aggiornaDominio.password"> </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning" (click)="generatePasswordUpdate()">Generate Password</button>
+            <button type="button" class="btn btn-primary" (click)="aggiornaPassword()">Save Password</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 </body>
