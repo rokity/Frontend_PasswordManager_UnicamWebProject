@@ -79,7 +79,7 @@
           <ul style="list-style-type:disc">
             <li>
               <label for="dominio">Dominio</label>
-              <input class="form-control" id="dominio" #this.nuovoDominio.readonly 
+              <input class="form-control" id="dominio"  
               placeholder="Esempio: www.facebook.com o facebook.com"
               (input)="this.nuovoDominio.domain = $event.target.value" [value]="this.nuovoDominio.domain">
             </li>
@@ -118,7 +118,8 @@
               (input)="this.nuovoDominio.mustInclude = $event.target.checked" [value]="this.nuovoDominio.mustInclude"> </li>
             <li>
               <label for="pw">Passowrd</label>
-              <input id="pw" class="form-control"  readonly  [value]="this.nuovoDominio.password"> </li>
+              <input id="pw" class="form-control"   readonly
+                [value]="this.nuovoDominio.password"> </li>
           </ul>
         </div>
         <div class="modal-footer">

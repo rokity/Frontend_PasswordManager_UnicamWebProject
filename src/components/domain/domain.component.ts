@@ -97,7 +97,7 @@ export class DomainComponent {
           this.hiddenTable = true
         else {
           this.hiddenTable = false
-          swal(data['password'])
+          swal({text:data['password']})
         }
       })
   }
@@ -170,10 +170,11 @@ export class DomainComponent {
           swal('Dominio già esistente')
         else if (data['DomainAdded'] == false)
           swal('Dominio non aggiunto')
-        else {
+        else if (data['DomainAdded'] == true){
           swal('Dominio aggiunto').then(val => location.reload());
-        }
-
+        }       
+      },error => {
+        swal("Parametri Mancanti")
       })
   }
 
@@ -209,7 +210,8 @@ export class DomainComponent {
         else {
           swal('Dominio Aggiornato').then(val => location.reload());
         }
-
+      },error => {
+        swal("Parametri Mancanti")
       })
   }
 
