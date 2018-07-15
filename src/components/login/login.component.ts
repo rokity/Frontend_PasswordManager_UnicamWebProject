@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'login-component',
@@ -29,6 +30,7 @@ export class LoginComponent {
   }
   login() {
     if (this.emailValidation() || !this.masterkey == undefined) {
+      if(this.email.length<20){
       var body = { email: this.email, masterkey: this.masterkey };
       fetch(this.server, {
         method: "POST",
@@ -39,12 +41,13 @@ export class LoginComponent {
           this.router.navigate(['/']);
         }
         else {
-          alert("Email o password errati");
+          swal("Email o password errati");
           this.email = null;
           this.masterkey = null;
         }
       })
-    } else alert("Inserisci tutti i parametri correttamente");
+    } else swal("La mail può essere lunga al massimo 20 caratteri");
+    } else swal("Inserisci tutti i parametri correttamente");
   }
 
   emailValidation() {
