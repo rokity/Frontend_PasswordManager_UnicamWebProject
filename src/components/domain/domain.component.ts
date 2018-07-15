@@ -42,10 +42,6 @@ export class DomainComponent {
 
 
 
-  ApiDeleteDomain = "http://localhost:8000/api/domain/delete"
-
-
-
   constructor(private http: HttpClient, private router: Router) {
     this.navbar();
     this.loadDomains();
@@ -160,7 +156,7 @@ export class DomainComponent {
   salvaPassword() {
     var params = { token: this.token, domain: this.nuovoDominio.domain, psw: this.nuovoDominio.password };
     var url = "http://localhost:8000/api/domain/add"
-    this.http.post(url, params)
+    this.http.put(url, params)
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
@@ -180,7 +176,8 @@ export class DomainComponent {
 
   domainDelete(event, domainID) {
     var params = { token: this.token, domainID };
-    this.http.post(this.ApiDeleteDomain, params)
+    var url = "http://localhost:8000/api/domain/delete"
+    this.http.delete(url,{params})
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
@@ -199,7 +196,7 @@ export class DomainComponent {
   aggiornaPassword() {
     var params = { token: this.token, domain: this.aggiornaDominio.domain, psw: this.aggiornaDominio.password, domainID: this.aggiornaDominio.id };
     var url = "http://localhost:8000/api/domain/modify"
-    this.http.post(url, params)
+    this.http.put(url, params)
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
