@@ -1,12 +1,30 @@
 import { Component, ViewChild } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router, ChildActivationStart } from '@angular/router';
+import { trigger,state,style,animate,transition} from '@angular/animations';
 import { generate } from 'generate-password-browser';
 import swal from 'sweetalert2';
 
 @Component({
   selector: 'domain-component',
   templateUrl: './domain.component.html',
+  styleUrls: ['./domain.component.css'],
+  animations: [
+    // the fade-in/fade-out animation.
+    trigger('simpleFadeAnimation', [
+      // the "in" style determines the "resting" state of the element when it is visible.
+      state('in', style({opacity: 1})),
+
+      // fade in when created. this could also be written as transition('void => *')
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      // fade out when destroyed. this could also be written as transition('void => *')
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])]
 })
 export class DomainComponent {
   title = 'DominKey';
