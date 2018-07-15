@@ -153,10 +153,10 @@ export class DomainComponent {
   }
 
 
-  salvaPassword() {
+  savePassword() {
     var params = { token: this.token, domain: this.nuovoDominio.domain, psw: this.nuovoDominio.password };
     var url = "http://localhost:8000/api/domain/add"
-    this.http.put(url, params)
+    this.http.post(url, params)
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
