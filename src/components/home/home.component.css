@@ -6,7 +6,12 @@ body {
     padding-top: 3rem;
     padding-bottom: 3rem;
     color: #5a5a5a;
+    background-color: #212529
   }
+
+h2{ 
+ color: #FDD835;
+}
   
   
   /* CUSTOMIZE THE CAROUSEL
@@ -41,14 +46,14 @@ body {
   -------------------------------------------------- */
   
   /* Center align the text within the three columns below the carousel */
-  .marketing .col-lg-4 {
+  .marketing .col-lg-6 {
     margin-bottom: 1.5rem;
     text-align: center;
   }
   .marketing h2 {
     font-weight: 400;
   }
-  .marketing .col-lg-4 p {
+  .marketing .col-lg-6 p {
     margin-right: .75rem;
     margin-left: .75rem;
   }
@@ -59,6 +64,7 @@ body {
   
   .featurette-divider {
     margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+    background: white
   }
   
   /* Thin out the marketing headings */
