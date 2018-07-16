@@ -77,12 +77,12 @@ export class DomainComponent {
           this.hiddenTable = false
           this.domainsArray = data['domains'];
         }
-      }, error =>{
-          swal({
+      }, error => {
+        swal({
           type: 'error',
           confirmButtonColor: '#FDD835',
           title: "Qualcosa è andato storto",
-      });
+        });
       })
   }
 
@@ -94,7 +94,11 @@ export class DomainComponent {
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
-          this.router.navigate(['/login']);
+          swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Sessione scaduta"
+          }).then(val => this.router.navigate(['/login']));
         }
         if (data['domain'] == false)
           this.hiddenTable = true;
@@ -119,7 +123,11 @@ export class DomainComponent {
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
-          this.router.navigate(['/login']);
+          swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Sessione scaduta"
+          }).then(val => this.router.navigate(['/login']));
         }
         if (data['domains'] == false)
           this.hiddenTable = true
@@ -170,40 +178,50 @@ export class DomainComponent {
 
 
   savePassword() {
-    var params = { token: this.token, domain: this.nuovoDominio.domain, psw: this.nuovoDominio.password };
-    var url = "http://localhost:8000/api/domain/add"
-    this.http.post(url, params)
-      .subscribe(data => {
-        if (data['authenticated'] == false) {
-          localStorage.removeItem('token')
-          this.router.navigate(['/login']);
-        }
-        if (data['domainAlreadyInserted'] == true)
-          swal({
-            type: 'warning',
-            confirmButtonColor: '#FDD835',
-            title: "Dominio già esistente",
-          });
-        else if (data['DomainAdded'] == false)
+    if (this.nuovoDominio.domain.length > 0 && this.nuovoDominio.password.length > 0) {
+      var params = { token: this.token, domain: this.nuovoDominio.domain, psw: this.nuovoDominio.password };
+      var url = "http://localhost:8000/api/domain/add"
+      this.http.post(url, params)
+        .subscribe(data => {
+          if (data['authenticated'] == false) {
+            localStorage.removeItem('token')
+            swal({
+              type: 'warning',
+              confirmButtonColor: '#FDD835',
+              title: "Sessione scaduta"
+            }).then(val => this.router.navigate(['/login']));
+          }
+          if (data['domainAlreadyInserted'] == true)
+            swal({
+              type: 'warning',
+              confirmButtonColor: '#FDD835',
+              title: "Dominio già esistente",
+            });
+          else if (data['DomainAdded'] == false)
+            swal({
+              type: 'error',
+              confirmButtonColor: '#FDD835',
+              title: 'Qualcosa è andato storto',
+            });
+          else if (data['DomainAdded'] == true) {
+            swal({
+              type: 'success',
+              confirmButtonColor: '#FDD835',
+              title: 'Dominio aggiunto',
+            }).then(val => location.reload());
+          }
+        }, error => {
           swal({
             type: 'error',
             confirmButtonColor: '#FDD835',
-            title: 'Qualcosa è andato storto',
+            title: "Qualcosa è andato storto",
           });
-        else if (data['DomainAdded'] == true) {
-          swal({
-            type: 'success',
-            confirmButtonColor: '#FDD835',
-            title: 'Dominio aggiunto',
-          }).then(val => location.reload());
-        }
-      }, error => {
-        swal({
-          type: 'warning',
-          confirmButtonColor: '#FDD835',
-          title: "Inserisci tutti i parametri correttamente",
-        });
-      })
+        })
+    } else swal({
+      type: 'warning',
+      confirmButtonColor: '#FDD835',
+      title: "Inserisci tutti i parametri correttamente",
+    });
   }
 
   domainDelete(event, domainID) {
@@ -213,7 +231,11 @@ export class DomainComponent {
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
-          this.router.navigate(['/login']);
+          swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Sessione scaduta"
+          }).then(val => this.router.navigate(['/login']));
         }
         else if (data['deleted'] == 0) {
           console.error(data['error']);
@@ -230,39 +252,53 @@ export class DomainComponent {
             title: 'Dominio eliminato',
           }).then(val => location.reload());
         }
-      })
+      }), error => {
+        swal({
+          type: 'error',
+          confirmButtonColor: '#FDD835',
+          title: 'Qualcosa è andato storto',
+        });
+      }
   }
 
-  aggiornaPassword() {
-    var params = { token: this.token, domain: this.aggiornaDominio.domain, psw: this.aggiornaDominio.password, domainID: this.aggiornaDominio.id };
-    var url = "http://localhost:8000/api/domain/modify"
-    this.http.put(url, params)
-      .subscribe(data => {
-        if (data['authenticated'] == false) {
-          localStorage.removeItem('token')
-          this.router.navigate(['/login']);
-        }
-        else if (data['error'])
+  updatePassword() {
+    if (this.aggiornaDominio.domain.length > 0 && this.aggiornaDominio.password.length > 0) {
+      var params = { token: this.token, domain: this.aggiornaDominio.domain, psw: this.aggiornaDominio.password, domainID: this.aggiornaDominio.id };
+      var url = "http://localhost:8000/api/domain/modify"
+      this.http.put(url, params)
+        .subscribe(data => {
+          if (data['authenticated'] == false) {
+            localStorage.removeItem('token')
+            swal({
+              type: 'warning',
+              confirmButtonColor: '#FDD835',
+              title: "Sessione scaduta"
+            }).then(val => this.router.navigate(['/login']));
+          }
+          else if (data['error'])
+            swal({
+              type: 'error',
+              confirmButtonColor: '#FDD835',
+              title: "Qualcosa è andato storto",
+            });
+          else {
+            swal({
+              type: 'success',
+              confirmButtonColor: '#FDD835',
+              title: "Dominio aggiornato",
+            }).then(val => location.reload());
+          }
+        }, error => {
           swal({
             type: 'error',
             confirmButtonColor: '#FDD835',
-            title: "Qualcosa è andato storto",
+            title: 'Qualcosa è andato storto',
           });
-        else {
-          swal({
-            type: 'success',
-            confirmButtonColor: '#FDD835',
-            title: "Dominio aggiornato",
-          }).then(val => location.reload());
-        }
-      }, error => {
-        swal({
-          type: 'warning',
-          confirmButtonColor: '#FDD835',
-          title: "Inserisci tutti i parametri correttamente",
-        });
-      })
+        })
+    } else swal({
+      type: 'warning',
+      confirmButtonColor: '#FDD835',
+      title: "Inserisci tutti i parametri correttamente",
+    });
   }
-
-
 }
