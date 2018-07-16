@@ -50,7 +50,7 @@ export class ProfileComponent {
     modify() {
         if ((this.profile.name && this.profile.surname && this.profile.email && this.profile.masterkey) != undefined) {
             if (this.emailValidation()) {
-                if (this.profile.email.length < 20) {
+                if (this.profile.email.length <= 20) {
                     if (this.isStrongPwd()) {
                         if (this.checkPswConfirm()) {
                             var url = "http://localhost:8000/api/profile/modify"
@@ -78,11 +78,11 @@ export class ProfileComponent {
                                 },
                                     error => {
                                         swal({
-                                            type: 'warning',
+                                            type: 'error',
                                             confirmButtonColor: '#FDD835',
-                                            title: "Inserisci tutti i parametri correttamente",
+                                            title: "Qualcosa è andato storto",
                                           });
-                                    })
+                                    });
                         } else swal({
                             type: 'warning',
                             confirmButtonColor: '#FDD835',

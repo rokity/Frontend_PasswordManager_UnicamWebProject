@@ -38,7 +38,7 @@ export class RegistrationComponent {
   registration() {
     if ((this.name && this.surname && this.email && this.masterkey) != undefined) {
       if (this.emailValidation()) {
-        if (this.email.length < 20) {
+        if (this.email.length <= 20) {
           if (this.isStrongPwd()) {
             if (this.checkPswConfirm()) {
               this.http.post(this.server, { name: this.name, surname: this.surname, email: this.email, masterkey: this.masterkey })
@@ -67,9 +67,9 @@ export class RegistrationComponent {
                 },
                   error => {
                     swal({
-                      type: 'warning',
+                      type: 'error',
                       confirmButtonColor: '#FDD835',
-                      title: "Inserisci tutti i parametri correttamente",
+                      title: "Qualcosa è andato storto",
                     });
                   })
             } else swal({

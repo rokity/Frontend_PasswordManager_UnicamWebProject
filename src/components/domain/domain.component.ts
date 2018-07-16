@@ -64,8 +64,12 @@ export class DomainComponent {
     this.http.get(url, { params: params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
-          localStorage.removeItem('token')
-          this.router.navigate(['/login']);
+          localStorage.removeItem('token');
+          swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Sessione scaduta"
+          }).then(val => this.router.navigate(['/']));
         }
         if (data['domains'] == false)
           this.hiddenTable = true
