@@ -77,6 +77,12 @@ export class DomainComponent {
           this.hiddenTable = false
           this.domainsArray = data['domains'];
         }
+      }, error =>{
+          swal({
+          type: 'error',
+          confirmButtonColor: '#FDD835',
+          title: "Qualcosa è andato storto",
+      });
       })
   }
 
