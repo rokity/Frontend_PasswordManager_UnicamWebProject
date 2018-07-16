@@ -41,7 +41,6 @@ export class DomainComponent {
 
   constructor(private http: HttpClient, private router: Router) {
     this.navbar();
-    this.loadDomains();
   }
 
   navbar() {
@@ -50,6 +49,7 @@ export class DomainComponent {
       this.registration = true;
       this.testo = "Logout"
       this.link = 'http://localhost:4200/logout'
+      this.loadDomains();
     }
     else {
       this.domains = true;
