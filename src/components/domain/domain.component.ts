@@ -69,7 +69,7 @@ export class DomainComponent {
             type: 'warning',
             confirmButtonColor: '#FDD835',
             title: "Sessione scaduta"
-          }).then(val => this.router.navigate(['/']));
+          }).then(val => this.router.navigate(['/login']));
         }
         if (data['domains'] == false)
           this.hiddenTable = true
