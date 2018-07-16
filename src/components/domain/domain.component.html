@@ -32,7 +32,7 @@
   <main role="main" [@simpleFadeAnimation]="'in'">
     <div class="form-row text-center">
       <div class="col-12">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuovoDominio">Aggiungi Dominio</button>
+        <button  style="background-color: #FDD835; color: black; border-color: white"type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuovoDominio">Aggiungi Dominio</button>
       </div>
     </div>
 
@@ -53,14 +53,14 @@
             <th scope="row">{{domain.id}}</th>
             <td>{{domain.domain}}</td>
             <td>
-              <button type="button" class="btn btn-link" style="display:inline-block" (click)="displayPassword($event,domain.id)">Mostra Password</button>
+              <button type="button" class="btn btn-link" style="display:inline-block; background-color: #FDD835; color: black" (click)="displayPassword($event,domain.id)">Mostra Password</button>
             </td>
             <td>{{domain.created}}</td>
             <td>{{domain.modified}}</td>
             <td style='white-space: nowrap'>
-              <button type="button" class="btn btn-link" style="display:inline-block" data-toggle="modal" data-target="#aggiornaDominio"
+              <button type="button" class="btn btn-link" style="display:inline-block; background-color: #FDD835; color: black" data-toggle="modal" data-target="#aggiornaDominio"
                 (click)="domainUpdate($event,domain.id,domain.domain)">Aggiorna</button>
-              <button type="button" class="btn btn-link" style="display:inline-block" (click)="domainDelete($event,domain.id)">Elimina</button>
+              <button type="button" class="btn btn-link" style="margin-left:10px; display:inline-block; background-color: #FDD835; color: black" (click)="domainDelete($event,domain.id)">Elimina</button>
             </td>
           </tr>
         </tbody>

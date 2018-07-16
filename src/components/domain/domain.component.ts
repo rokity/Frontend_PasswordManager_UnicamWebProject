@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router, ChildActivationStart } from '@angular/router';
-import { trigger,state,style,animate,transition} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { generate } from 'generate-password-browser';
 import swal from 'sweetalert2';
 
@@ -12,15 +12,15 @@ import swal from 'sweetalert2';
   animations: [
     trigger('simpleFadeAnimation', [
 
-      state('in', style({opacity: 1})),
+      state('in', style({ opacity: 1 })),
 
       transition(':enter', [
-        style({opacity: 0}),
-        animate(600 )
+        style({ opacity: 0 }),
+        animate(600)
       ]),
 
       transition(':leave',
-        animate(600, style({opacity: 0})))
+        animate(600, style({ opacity: 0 })))
     ])]
 })
 export class DomainComponent {
@@ -87,10 +87,13 @@ export class DomainComponent {
           this.router.navigate(['/login']);
         }
         if (data['domain'] == false)
-          this.hiddenTable = true
+          this.hiddenTable = true;
         else {
-          this.hiddenTable = false
-          swal({text:data['password']})
+          this.hiddenTable = false;
+          swal({
+            confirmButtonColor: '#FDD835',
+            text: data['password'],
+          });
         }
       })
   }
@@ -129,8 +132,11 @@ export class DomainComponent {
         strict: this.nuovoDominio.mustInclude
       });
     }
-    else
-      swal("Lunghezza Password non corretta! \nMassimo 30 , Minimo 5")
+    else swal({
+      type: 'warning',
+      confirmButtonColor: '#FDD835',
+      title: "La password deve variare tra i 5 ed i 30 caratteri",
+    });
   }
 
   generatePasswordUpdate() {
@@ -145,8 +151,11 @@ export class DomainComponent {
         strict: this.aggiornaDominio.mustInclude
       });
     }
-    else
-      swal("Lunghezza Password non corretta! \nMassimo 30 , Minimo 5")
+    else swal({
+      type: 'warning',
+      confirmButtonColor: '#FDD835',
+      title: "La password deve variare tra i 5 ed i 30 caratteri",
+    });
   }
 
 
@@ -160,21 +169,37 @@ export class DomainComponent {
           this.router.navigate(['/login']);
         }
         if (data['domainAlreadyInserted'] == true)
-          swal('Dominio già esistente')
+          swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Dominio già esistente",
+          });
         else if (data['DomainAdded'] == false)
-          swal('Dominio non aggiunto')
-        else if (data['DomainAdded'] == true){
-          swal('Dominio aggiunto').then(val => location.reload());
-        }       
-      },error => {
-        swal("Parametri Mancanti")
+          swal({
+            type: 'error',
+            confirmButtonColor: '#FDD835',
+            title: 'Qualcosa è andato storto',
+          });
+        else if (data['DomainAdded'] == true) {
+          swal({
+            type: 'success',
+            confirmButtonColor: '#FDD835',
+            title: 'Dominio aggiunto',
+          }).then(val => location.reload());
+        }
+      }, error => {
+        swal({
+          type: 'warning',
+          confirmButtonColor: '#FDD835',
+          title: "Inserisci tutti i parametri correttamente",
+        });
       })
   }
 
   domainDelete(event, domainID) {
     var params = { token: this.token, domainID };
     var url = "http://localhost:8000/api/domain/delete"
-    this.http.delete(url,{params})
+    this.http.delete(url, { params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
           localStorage.removeItem('token')
@@ -182,10 +207,18 @@ export class DomainComponent {
         }
         else if (data['deleted'] == 0) {
           console.error(data['error']);
-          swal("Dominio non eliminato");
+          swal({
+            type: 'error',
+            confirmButtonColor: '#FDD835',
+            title: 'Qualcosa è andato storto',
+          });
         }
         else {
-          swal('Dominio eliminato').then(val => location.reload());
+          swal({
+            type: 'success',
+            confirmButtonColor: '#FDD835',
+            title: 'Dominio eliminato',
+          }).then(val => location.reload());
         }
       })
   }
@@ -200,12 +233,24 @@ export class DomainComponent {
           this.router.navigate(['/login']);
         }
         else if (data['error'])
-          swal('Dominio Non Aggiornato')
+          swal({
+            type: 'error',
+            confirmButtonColor: '#FDD835',
+            title: "Qualcosa è andato storto",
+          });
         else {
-          swal('Dominio Aggiornato').then(val => location.reload());
+          swal({
+            type: 'success',
+            confirmButtonColor: '#FDD835',
+            title: "Dominio aggiornato",
+          }).then(val => location.reload());
         }
-      },error => {
-        swal("Parametri Mancanti")
+      }, error => {
+        swal({
+          type: 'warning',
+          confirmButtonColor: '#FDD835',
+          title: "Inserisci tutti i parametri correttamente",
+        });
       })
   }
 

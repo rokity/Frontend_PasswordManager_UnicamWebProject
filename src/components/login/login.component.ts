@@ -38,16 +38,32 @@ export class LoginComponent {
       }).then(res => res.json()).then(val => {
         if (val.logged == true) {
           localStorage.setItem("token", val.token);
-          this.router.navigate(['/']);
+          swal({
+            type: 'success',
+            confirmButtonColor: '#FDD835',
+            title: "Loggato con successo",
+          }).then(val => this.router.navigate(['/']));
         }
         else {
-          swal("Email o password errati");
+          swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Email o password errati",
+          });
           this.email = null;
           this.masterkey = null;
         }
       })
-    } else swal("La mail può essere lunga al massimo 20 caratteri");
-    } else swal("Inserisci tutti i parametri correttamente");
+    } else swal({
+      type: 'warning',
+      confirmButtonColor: '#FDD835',
+      title: "La mail può essere lunga al massimo 20 caratteri",
+    });
+    } else swal({
+      type: 'warning',
+      confirmButtonColor: '#FDD835',
+      title: "Inserisci tutti i parametri correttamente",
+    });
   }
 
   emailValidation() {

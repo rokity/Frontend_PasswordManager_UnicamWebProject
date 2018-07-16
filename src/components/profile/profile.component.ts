@@ -57,21 +57,57 @@ export class ProfileComponent {
                             this.http.put(url, { token: localStorage.getItem('token'), name: this.profile.name, surname: this.profile.surname, email: this.profile.email, masterkey: this.profile.masterkey })
                                 .subscribe(data => {
                                     if (data['modified'] == true) {
-                                        swal("Account modificato!");
-                                        this.router.navigate(['/']);
+                                        swal({
+                                            type: 'success',
+                                            confirmButtonColor: '#FDD835',
+                                            title: "Profilo aggiornato",
+                                          }).then(val => this.router.navigate(['/']));
                                     }
                                     else if (data['mailUsed']) {
-                                        swal("Email già utilizzata");
+                                        swal({
+                                            type: 'warning',
+                                            confirmButtonColor: '#FDD835',
+                                            title: "Email già utilizzata",
+                                          });
                                     }
+                                    else swal({
+                                        type: 'error',
+                                        confirmButtonColor: '#FDD835',
+                                        title: "Qualcosa è andato storto",
+                                      });
                                 },
                                     error => {
-                                        swal("Parametri non corretti");
+                                        swal({
+                                            type: 'warning',
+                                            confirmButtonColor: '#FDD835',
+                                            title: "Inserisci tutti i parametri correttamente",
+                                          });
                                     })
-                        } else swal("Le password inserite non combaciano");
-                    } else swal("La masterkey non rispetta i requisiti di sicurezza");
-                } else swal("La mail può essere lunga al massimo 20 caratteri");
-            } else swal("Inserisci una mail valida");
-        } else swal("Compila tutti i campi");
+                        } else swal({
+                            type: 'warning',
+                            confirmButtonColor: '#FDD835',
+                            title: "Le password inserite non combaciano",
+                          });
+                    } else swal({
+                        type: 'warning',
+                        confirmButtonColor: '#FDD835',
+                        title: "La masterkey non rispetta i requisiti di sicurezza",
+                      });
+                } else swal({
+                    type: 'warning',
+                    confirmButtonColor: '#FDD835',
+                    title: "La mail può essere lunga al massimo 20 caratteri",
+                  });
+            } else swal({
+                type: 'warning',
+                confirmButtonColor: '#FDD835',
+                title: "Inserisci una mail valida",
+              });
+        } else swal({
+            type: 'warning',
+            confirmButtonColor: '#FDD835',
+            title: "Compila tutti i campi",
+          });
     }
 
     checkPswConfirm() {
