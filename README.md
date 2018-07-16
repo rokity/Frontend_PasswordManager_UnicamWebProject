@@ -12,8 +12,8 @@ npm start
 Requires at least Dominkey's Backend to run (link above).
 
 ### DominKey repo
-* [Frontend](https://github.com/rokity/Frontend_PasswordManager_UnicamWebProject)
-  AngulaJS 6.0 and Bootstrap 4.1.
+* [Backend](https://github.com/rokity/PasswordManager_UnicamWebProject/)
+  Made with NodeJS, Hapi and Sqlite.
 * [Chrome Extension](https://github.com/Alepacox/ChromeExtension_PasswordManager_UnicamWebProject)
 
 #### Notes :
