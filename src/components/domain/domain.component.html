@@ -39,7 +39,7 @@
     <div class="table-responsive">
       <table class="table table-dark" [hidden]="this.hiddenTable">
         <thead class="thead-dark">
-          <tr>
+          <tr style="text-align: center">
             <th scope="col">#</th>
             <th scope="col">Dominio</th>
             <th scope="col">Password</th>
@@ -49,7 +49,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let domain of domainsArray">
+          <tr *ngFor="let domain of domainsArray" style="text-align: center">
             <th scope="row">{{domain.id}}</th>
             <td>{{domain.domain}}</td>
             <td>
