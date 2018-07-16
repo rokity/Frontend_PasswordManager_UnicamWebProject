@@ -4,7 +4,10 @@
 Frontend side of Dominkey, website developed with the purpose of generating and storing password securely for each site you want to.
 Conceived and developed by Riccardo Amadio and Alessandro Pacini at the University of Camerino.
 Realized with AngulaJS 6.0 and Bootstrap 4.1.
-
+## Install
+```
+npm install
+```
 ## Launch
 ```
 npm start
