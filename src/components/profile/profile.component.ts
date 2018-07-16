@@ -23,7 +23,7 @@ import swal from 'sweetalert2';
         ])]
 })
 export class ProfileComponent {
-    profile = { name: '', surname: '', email: '', masterkey: '', confirmMasterkey: '' };
+    profile = { name: '', surname: '', email: '', oldmasterkey: '', masterkey: '', confirmMasterkey: '' };
 
     constructor(private http: HttpClient, private router: Router) {
         if (localStorage.getItem('token') == null)
@@ -34,8 +34,13 @@ export class ProfileComponent {
             this.http.get(url, { params: params })
                 .subscribe(data => {
                     if (data['authenticated'] == false) {
-                        localStorage.removeItem('token')
-                        this.router.navigate(['/login']);
+                        localStorage.removeItem('token');
+                        swal({
+                            type: 'warning',
+                            confirmButtonColor: '#FDD835',
+                            title: "Sessione scaduta"
+                        }).then(val => this.router.navigate(['/login']));
+
                     }
                     else {
                         this.profile.name = data['name'];
@@ -48,66 +53,114 @@ export class ProfileComponent {
     }
 
     modify() {
-        if ((this.profile.name && this.profile.surname && this.profile.email && this.profile.masterkey) != undefined) {
+        if ((this.profile.name.length && this.profile.surname.length && this.profile.email.length && this.profile.masterkey.length && this.profile.oldmasterkey.length) > 0) {
             if (this.emailValidation()) {
                 if (this.profile.email.length <= 20) {
                     if (this.isStrongPwd()) {
                         if (this.checkPswConfirm()) {
-                            var url = "http://localhost:8000/api/profile/modify"
-                            this.http.put(url, { token: localStorage.getItem('token'), name: this.profile.name, surname: this.profile.surname, email: this.profile.email, masterkey: this.profile.masterkey })
-                                .subscribe(data => {
-                                    if (data['modified'] == true) {
-                                        swal({
-                                            type: 'success',
-                                            confirmButtonColor: '#FDD835',
-                                            title: "Profilo aggiornato",
-                                          }).then(val => this.router.navigate(['/']));
-                                    }
-                                    else if (data['mailUsed']) {
-                                        swal({
-                                            type: 'warning',
-                                            confirmButtonColor: '#FDD835',
-                                            title: "Email già utilizzata",
-                                          });
-                                    }
-                                    else swal({
-                                        type: 'error',
-                                        confirmButtonColor: '#FDD835',
-                                        title: "Qualcosa è andato storto",
-                                      });
-                                },
-                                    error => {
-                                        swal({
-                                            type: 'error',
-                                            confirmButtonColor: '#FDD835',
-                                            title: "Qualcosa è andato storto",
-                                          });
-                                    });
+                            if (this.profile.oldmasterkey.length >= 8) {
+                                if (this.profile.oldmasterkey != this.profile.masterkey) {
+                                    var url = "http://localhost:8000/api/profile/modify"
+                                    this.http.put(url, { token: localStorage.getItem('token'), name: this.profile.name, surname: this.profile.surname, email: this.profile.email, oldmasterkey: this.profile.oldmasterkey, masterkey: this.profile.masterkey })
+                                        .subscribe(data => {
+                                            if (data['authenticated']) {
+                                                if ((data['errordselect'] && data['errordselect']) == undefined) {
+                                                    if (data['matchold']) {
+                                                        if (data['modified']) {
+                                                            swal({
+                                                                type: 'success',
+                                                                confirmButtonColor: '#FDD835',
+                                                                title: "Profilo aggiornato",
+                                                            }).then(val => this.router.navigate(['/']));
+                                                        }
+                                                        else if (data['mailUsed']) {
+                                                            swal({
+                                                                type: 'warning',
+                                                                confirmButtonColor: '#FDD835',
+                                                                title: "Email già utilizzata",
+                                                            });
+                                                        }
+                                                        else swal({
+                                                            type: 'error',
+                                                            confirmButtonColor: '#FDD835',
+                                                            title: "Qualcosa è andato storto",
+                                                        });
+                                                    } else {
+                                                        swal({
+                                                            type: 'warning',
+                                                            confirmButtonColor: '#FDD835',
+                                                            title: "Vecchia masterkey errata",
+                                                        });
+                                                        this.profile.oldmasterkey = null;
+                                                        this.profile.masterkey = null;
+                                                        this.profile.confirmMasterkey = null;
+                                                    }
+                                                } else {
+                                                    swal({
+                                                        type: 'warning',
+                                                        confirmButtonColor: '#FDD835',
+                                                        title: "Qualcosa è andato storto",
+                                                    });
+                                                }
+                                            } else {
+                                                localStorage.removeItem('token');
+                                                swal({
+                                                    type: 'warning',
+                                                    confirmButtonColor: '#FDD835',
+                                                    title: "Sessione scaduta"
+                                                }).then(val => this.router.navigate(['/login']));
+                                            }
+                                        },
+                                            error => {
+                                                swal({
+                                                    type: 'error',
+                                                    confirmButtonColor: '#FDD835',
+                                                    title: "Qualcosa è andato storto",
+                                                });
+                                            });
+
+                            } else {
+                                swal({
+                                    type: 'warning',
+                                    confirmButtonColor: '#FDD835',
+                                    title: "La vecchia e la nuova masterkey che hai inserito coincidono",
+                                });
+                                }
+                            } else {
+                                swal({
+                                    type: 'warning',
+                                    confirmButtonColor: '#FDD835',
+                                    title: "Vecchia masterkey errata",
+                                });
+                                this.profile.oldmasterkey = null;
+                                this.profile.masterkey = null;
+                                this.profile.confirmMasterkey = null;
+                            }
                         } else swal({
                             type: 'warning',
                             confirmButtonColor: '#FDD835',
                             title: "Le password inserite non combaciano",
-                          });
+                        });
                     } else swal({
                         type: 'warning',
                         confirmButtonColor: '#FDD835',
                         title: "La masterkey non rispetta i requisiti di sicurezza",
-                      });
+                    });
                 } else swal({
                     type: 'warning',
                     confirmButtonColor: '#FDD835',
                     title: "La mail può essere lunga al massimo 20 caratteri",
-                  });
+                });
             } else swal({
                 type: 'warning',
                 confirmButtonColor: '#FDD835',
                 title: "Inserisci una mail valida",
-              });
+            });
         } else swal({
             type: 'warning',
             confirmButtonColor: '#FDD835',
             title: "Compila tutti i campi",
-          });
+        });
     }
 
     checkPswConfirm() {

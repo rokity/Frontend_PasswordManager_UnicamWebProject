@@ -30,7 +30,7 @@ export class LoginComponent {
 
   }
   login() {
-    if (this.emailValidation() && this.masterkey != undefined ) {
+    if (this.emailValidation() && this.masterkey.length >0) {
       if (this.email.length <= 20) {
         if (this.masterkey.length >= 8) {
           var body = { email: this.email, masterkey: this.masterkey };

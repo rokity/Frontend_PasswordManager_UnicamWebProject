@@ -36,7 +36,7 @@ export class RegistrationComponent {
       this.router.navigate(['/']);
   }
   registration() {
-    if ((this.name && this.surname && this.email && this.masterkey) != undefined) {
+    if ((this.name.length && this.surname.length && this.email.length && this.masterkey.length) >0) {
       if (this.emailValidation()) {
         if (this.email.length <= 20) {
           if (this.isStrongPwd()) {

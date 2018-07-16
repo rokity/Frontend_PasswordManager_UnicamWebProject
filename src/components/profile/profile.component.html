@@ -6,7 +6,9 @@
     <input style="margin-top: 20px" type="text" class="form-control" placeholder="Nome" required autofocus [(ngModel)]="this.profile.name">
     <input style="margin-top: 2px" type="text" class="form-control" placeholder="Congnome" required autofocus [(ngModel)]="this.profile.surname">
     <input style="margin-top: 2px" type="email" class="form-control" placeholder="Indirizzo email" required autofocus [(ngModel)]="this.profile.email">
-    <input style="margin-top: 20px" type="password" id="password" class="form-control" placeholder="Nuova masterkey" required autofocus
+    <input style="margin-top: 20px" type="password" id="oldpassword" class="form-control" placeholder="Vecchia masterkey" required autofocus
+      [(ngModel)]="this.profile.oldmasterkey">
+    <input style="margin-top: 10px" type="password" id="password" class="form-control" placeholder="Nuova masterkey" required autofocus
       [(ngModel)]="this.profile.masterkey">
     <input style="margin-top: 2px" type="password" id="confirm_password" class="form-control" placeholder="Conferma nuova masterkey"
       required [(ngModel)]="this.profile.confirmMasterkey">
