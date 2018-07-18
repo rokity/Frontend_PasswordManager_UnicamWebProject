@@ -109,7 +109,13 @@ export class DomainComponent {
             text: data['password'],
           });
         }
-      })
+      }, error => {
+        swal({
+          type: 'error',
+          confirmButtonColor: '#FDD835',
+          title: "Qualcosa è andato storto",
+        });
+      });
   }
 
 
@@ -135,7 +141,13 @@ export class DomainComponent {
           this.hiddenTable = false
           this.aggiornaDominio.password = (data['password'])
         }
-      })
+      } , error => {
+        swal({
+          type: 'error',
+          confirmButtonColor: '#FDD835',
+          title: "Qualcosa è andato storto",
+        });
+      });
   }
 
   generatePassword() {
