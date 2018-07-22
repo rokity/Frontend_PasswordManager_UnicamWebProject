@@ -8,10 +8,16 @@ Realized with AngulaJS 6.0 and Bootstrap 4.1.
 ```
 npm install
 ```
-## Launch
+## Launch on localhost
 ```
 npm start
 ```
+## Launch on 0.0.0.0
+```
+npm run global
+```
+Useful for testing purpose on other devices on the same subnet. Remember to launch the backend too in global mode and modify here the server const in global.ts with its address.
+
 Requires at least Dominkey's Backend to run (link above).
 
 ### DominKey repo
