@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import swal from 'sweetalert2';
+import * as globals from '../../app/globals';
 
 @Component({
     selector: 'profile-component',
@@ -29,7 +30,7 @@ export class ProfileComponent {
         if (localStorage.getItem('token') == null)
             this.router.navigate(['/login']);
         else {
-            var url = "http://localhost:8000/api/profile/get"
+            var url = "http://"+globals.server+"/api/profile/get"
             let params = new HttpParams().set('token', localStorage.getItem('token'));
             this.http.get(url, { params: params })
                 .subscribe(data => {
@@ -53,14 +54,15 @@ export class ProfileComponent {
     }
 
     modify() {
-        if ((this.profile.name.length && this.profile.surname.length && this.profile.email.length && this.profile.masterkey.length && this.profile.oldmasterkey.length) > 0) {
+        if ((this.profile.name && this.profile.surname && this.profile.email && this.profile.masterkey && this.profile.oldmasterkey) != undefined && 
+        (this.profile.name.length && this.profile.surname.length && this.profile.email.length && this.profile.masterkey.length && this.profile.oldmasterkey.length) >0) {
             if (this.emailValidation()) {
                 if (this.profile.email.length <= 20) {
                     if (this.isStrongPwd()) {
                         if (this.checkPswConfirm()) {
                             if (this.profile.oldmasterkey.length >= 8) {
                                 if (this.profile.oldmasterkey != this.profile.masterkey) {
-                                    var url = "http://localhost:8000/api/profile/modify"
+                                    var url = "http://"+globals.server+"/api/profile/modify"
                                     this.http.put(url, { token: localStorage.getItem('token'), name: this.profile.name, surname: this.profile.surname, email: this.profile.email, oldmasterkey: this.profile.oldmasterkey, masterkey: this.profile.masterkey })
                                         .subscribe(data => {
                                             if (data['authenticated']) {

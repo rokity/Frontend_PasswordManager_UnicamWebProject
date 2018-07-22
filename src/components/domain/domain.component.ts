@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router, ChildActivationStart } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { generate } from 'generate-password-browser';
+import * as globals from '../../app/globals';
 import swal from 'sweetalert2';
 
 @Component({
@@ -48,7 +49,7 @@ export class DomainComponent {
       this.domains = false;
       this.registration = true;
       this.testo = "Logout"
-      this.link = 'http://localhost:4200/logout'
+      this.link = '/logout'
       this.loadDomains();
     }
     else {
@@ -60,7 +61,7 @@ export class DomainComponent {
 
   loadDomains() {
     let params = new HttpParams().set('token', this.token);
-    var url = "http://localhost:8000/api/domain/getall";
+    var url = "http://"+globals.server+"/api/domain/getall";
     this.http.get(url, { params: params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
@@ -89,7 +90,7 @@ export class DomainComponent {
 
   displayPassword(event, domainID) {
     let params = new HttpParams().set('token', this.token).set('domainID', domainID);
-    var url = "http://localhost:8000/api/domain/get"
+    var url = "http://"+globals.server+"/api/domain/get"
     this.http.get(url, { params: params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
@@ -124,7 +125,7 @@ export class DomainComponent {
     this.aggiornaDominio.domain = domain;
     this.aggiornaDominio.id = id;
     let params = new HttpParams().set('token', this.token).set('domainID', id);
-    var url = "http://localhost:8000/api/domain/get"
+    var url = "http://"+globals.server+"/api/domain/get"
     this.http.get(url, { params: params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
@@ -192,7 +193,7 @@ export class DomainComponent {
   savePassword() {
     if (this.nuovoDominio.domain.length > 0 && this.nuovoDominio.password.length > 0) {
       var params = { token: this.token, domain: this.nuovoDominio.domain, psw: this.nuovoDominio.password };
-      var url = "http://localhost:8000/api/domain/add"
+      var url = "http://"+globals.server+"/api/domain/add"
       this.http.post(url, params)
         .subscribe(data => {
           if (data['authenticated'] == false) {
@@ -238,7 +239,7 @@ export class DomainComponent {
 
   domainDelete(event, domainID) {
     var params = { token: this.token, domainID };
-    var url = "http://localhost:8000/api/domain/delete"
+    var url = "http://"+globals.server+"/api/domain/delete"
     this.http.delete(url, { params })
       .subscribe(data => {
         if (data['authenticated'] == false) {
@@ -276,7 +277,7 @@ export class DomainComponent {
   updatePassword() {
     if (this.aggiornaDominio.domain.length > 0 && this.aggiornaDominio.password.length > 0) {
       var params = { token: this.token, domain: this.aggiornaDominio.domain, psw: this.aggiornaDominio.password, domainID: this.aggiornaDominio.id };
-      var url = "http://localhost:8000/api/domain/modify"
+      var url = "http://"+globals.server+"/api/domain/modify"
       this.http.put(url, params)
         .subscribe(data => {
           if (data['authenticated'] == false) {

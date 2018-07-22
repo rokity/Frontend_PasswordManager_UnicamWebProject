@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import swal from 'sweetalert2';
+import * as globals from '../../app/globals';
 
 @Component({
   selector: 'registration-component',
@@ -29,14 +30,15 @@ export class RegistrationComponent {
   masterkey: string;
   confirmMasterkey: string;
 
-  server = "http://localhost:8000/api/registation"
+  server = "http://"+globals.server+"/api/registation"
 
   constructor(private http: HttpClient, private router: Router) {
     if (localStorage.getItem('token') != null)
       this.router.navigate(['/']);
   }
   registration() {
-    if ((this.name.length && this.surname.length && this.email.length && this.masterkey.length) >0) {
+    if ((this.name && this.surname && this.email && this.masterkey) != undefined && 
+    (this.name.length && this.surname.length && this.email.length && this.masterkey.length) >0) {
       if (this.emailValidation()) {
         if (this.email.length <= 20) {
           if (this.isStrongPwd()) {

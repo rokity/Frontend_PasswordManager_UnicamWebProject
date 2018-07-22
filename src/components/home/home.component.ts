@@ -40,14 +40,14 @@ export class HomeComponent {
       this.domains = false;
       this.registration = true;
       this.testo = "Logout"
-      this.link = 'http://localhost:4200/logout'
+      this.link = '/logout'
       this.modifyProfile = false;
     }
     else {
       this.registration = false;
       this.domains = true;
       this.testo = "Login"
-      this.link = 'http://localhost:4200/login'
+      this.link = '/login'
       this.modifyProfile = true;
     }
   }

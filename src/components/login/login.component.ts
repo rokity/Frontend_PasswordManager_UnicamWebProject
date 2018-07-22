@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import swal from 'sweetalert2';
-import { error } from 'util';
+import * as globals from '../../app/globals';
 
 @Component({
   selector: 'login-component',
@@ -24,7 +24,7 @@ export class LoginComponent {
   email: string;
   masterkey: string;
 
-  server = "http://localhost:8000/api/login"
+  server = "http://"+globals.server+"/api/login"
 
   constructor(private http: HttpClient, private router: Router) {
 

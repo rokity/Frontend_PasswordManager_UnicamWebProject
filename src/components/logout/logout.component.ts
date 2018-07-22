@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import * as globals from '../../app/globals';
 
 @Component({
   selector: 'logout-component',
   templateUrl: './logout.component.html'
 })
 export class LogoutComponent {
-  server = "http://localhost:8000/api/logout"
+  server = "http://"+globals.server+"/api/logout"
 
   constructor(private http: HttpClient, private router: Router) {
 
